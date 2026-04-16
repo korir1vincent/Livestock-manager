@@ -267,7 +267,9 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   return (
+    
     <View style={styles.container}>
+      <ScrollView>
       <View style={styles.header}>
         <Avatar.Text
           size={80}
@@ -283,7 +285,7 @@ const ProfileScreen = ({ navigation }) => {
           </View>
         )}
       </View>
-      <ScrollView>
+      
       <Card style={styles.card}>
         <Card.Content>
           <Title>Account Information</Title>

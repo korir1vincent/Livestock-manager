@@ -36,6 +36,7 @@ import VetApplicationScreen from "./src/screens/VetApplicationScreen";
 import VetDashboardScreen from "./src/screens/VetDashboardScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import AdminVetApprovalsScreen from "./src/screens/AdminVetApprovalsScreen";
+import SupplierDetailsScreen from "./src/screens/SupplierDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -191,6 +192,11 @@ function AppStack() {
         name="AdminVetApprovals"
         component={AdminVetApprovalsScreen}
         options={{ title: "Vet Applications" }}
+      />
+      <Stack.Screen
+        name="SupplierDetails"
+        component={SupplierDetailsScreen}
+        options={{ title: "Supplier Info" }}
       />
     </Stack.Navigator>
   );

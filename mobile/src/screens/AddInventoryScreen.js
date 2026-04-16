@@ -4,6 +4,7 @@ import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 're
 import { TextInput, Button, Title, HelperText, SegmentedButtons } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '../context/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AddInventoryScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -72,6 +73,7 @@ const AddInventoryScreen = ({ navigation }) => {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <SafeAreaView>
         <View style={styles.content}>
           <Title style={styles.title}>Add Inventory Item</Title>
 
@@ -237,6 +239,7 @@ const AddInventoryScreen = ({ navigation }) => {
             Cancel
           </Button>
         </View>
+        </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
   );

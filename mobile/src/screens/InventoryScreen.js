@@ -4,6 +4,7 @@ import { View, StyleSheet, ScrollView, RefreshControl, TouchableOpacity, Alert }
 import { Card, Title, Text, Button, ActivityIndicator, Chip, FAB } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAuth } from '../context/AuthContext';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const InventoryScreen = ({ navigation }) => {
   const [items, setItems] = useState([]);
@@ -99,6 +100,8 @@ const InventoryScreen = ({ navigation }) => {
   const totalValue = filteredItems.reduce((sum, item) => sum + (item.quantity * (item.unitPrice || 0)), 0);
 
   return (
+    
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.header}>
         <Title style={styles.headerTitle}>Inventory</Title>
@@ -172,7 +175,7 @@ const InventoryScreen = ({ navigation }) => {
                   <Button
                     mode="contained"
                     icon="cart-plus"
-                    onPress={() => navigation.navigate('EditInventory', { itemId: item._id })}
+                    onPress={() => navigation.navigate('SupplierDetails', { itemId: item._id })}
                     style={styles.reorderButton}
                     buttonColor="#ef4444"
                     compact
@@ -262,15 +265,25 @@ const InventoryScreen = ({ navigation }) => {
           )}
         </View>
       </ScrollView>
+      
 
-      <FAB
+      
+    </View>
+    
+    <FAB
         icon="plus"
         style={styles.fab}
         onPress={() => navigation.navigate('AddInventory')}
         color="#fff"
       />
-    </View>
+      
+    
+    
+    </ScrollView>
+    
+    
   );
+  
 };
 
 const styles = StyleSheet.create({
@@ -449,7 +462,7 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute',
-    margin: 16,
+    margin: 40,
     right: 0,
     bottom: 0,
     backgroundColor: '#16a34a'
