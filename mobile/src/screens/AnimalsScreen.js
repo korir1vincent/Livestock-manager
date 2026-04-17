@@ -150,9 +150,9 @@ const AnimalsScreen = ({ navigation }) => {
             Add Animal
           </Button>
         </View>
-      </SafeAreaView>
+      
 
-      <ScrollView>
+      
         <View style={styles.searchSection}>
           <Searchbar
             placeholder="Search by name or tag ID"
@@ -182,7 +182,7 @@ const AnimalsScreen = ({ navigation }) => {
 
         <ScrollView
           horizontal
-          showsHorizontalScrollIndicator={false}
+          showsHorizontalScrollIndicator={true}
           style={styles.filterSection}
         >
           <Text style={styles.filterLabel}>Status:</Text>
@@ -197,6 +197,8 @@ const AnimalsScreen = ({ navigation }) => {
             </Chip>
           ))}
         </ScrollView>
+        </SafeAreaView>
+        <ScrollView>
 
         <ScrollView
           style={styles.listContainer}

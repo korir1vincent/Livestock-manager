@@ -44,7 +44,7 @@ const LoginScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.card}>
           
-          <Text style={styles.logo}>🌿</Text>
+          {/* <Text style={styles.logo}>🌿</Text> */}
 
           <Title style={styles.title}>Welcome Back</Title>
           <Text style={styles.subtitle}>Sign in to continue</Text>

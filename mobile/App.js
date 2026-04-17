@@ -1,5 +1,5 @@
 // App.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,13 +8,10 @@ import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthProvider, useAuth } from "./src/context/AuthContext";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-// Auth Screens
+// Screens
 import LoginScreen from "./src/screens/LoginScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
-
-// Main Screens
 import DashboardScreen from "./src/screens/DashboardScreen";
 import AnimalsScreen from "./src/screens/AnimalsScreen";
 import AddAnimalScreen from "./src/screens/AddAnimalScreen";
@@ -37,16 +34,35 @@ import VetDashboardScreen from "./src/screens/VetDashboardScreen";
 import ChatScreen from "./src/screens/ChatScreen";
 import AdminVetApprovalsScreen from "./src/screens/AdminVetApprovalsScreen";
 import SupplierDetailsScreen from "./src/screens/SupplierDetailsScreen";
+import SplashScreen from "./src/screens/SplashScreen";
 
+// Navigators
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const SplashStack = createNativeStackNavigator();
 
-// Bottom Tab Navigator
+/* -------------------- SPLASH WRAPPER -------------------- */
+function SplashStackScreen({ onFinish }) {
+  return (
+    <SplashStack.Navigator screenOptions={{ headerShown: false }}>
+      <SplashStack.Screen name="Splash">
+        {(props) => (
+          <SplashScreen
+            {...props}
+            onFinish={onFinish}
+          />
+        )}
+      </SplashStack.Screen>
+    </SplashStack.Navigator>
+  );
+}
+
+/* -------------------- TABS -------------------- */
 function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ color, size }) => {
           let iconName;
 
           switch (route.name) {
@@ -85,145 +101,86 @@ function MainTabs() {
   );
 }
 
-// Auth Navigator
+/* -------------------- AUTH STACK -------------------- */
 function AuthStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: "#f3f4f6" },
-      }}
-    >
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
   );
 }
 
-// Main App Navigator
+/* -------------------- MAIN APP STACK -------------------- */
 function AppStack() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        contentStyle: { backgroundColor: "#f3f4f6" },
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="MainTabs"
         component={MainTabs}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="AddAnimal"
-        component={AddAnimalScreen}
-        options={{ title: "Add Animal" }}
-      />
-      <Stack.Screen
-        name="AnimalDetail"
-        component={AnimalDetailScreen}
-        options={{ title: "Animal Details" }}
-      />
-      <Stack.Screen
-        name="AddReminder"
-        component={AddReminderScreen}
-        options={{ title: "Add Reminder" }}
-      />
-      <Stack.Screen
-        name="Inventory"
-        component={InventoryScreen}
-        options={{ title: "Inventory" }}
-      />
-      <Stack.Screen
-        name="AddInventory"
-        component={AddInventoryScreen}
-        options={{ title: "Add Inventory Item" }}
-      />
-      <Stack.Screen
-        name="Financial"
-        component={FinancialScreen}
-        options={{ title: "Financial Tracking" }}
-      />
-      <Stack.Screen
-        name="AddExpense"
-        component={AddExpenseScreen}
-        options={{ title: "Add Expense" }}
-      />
-      <Stack.Screen
-        name="AddRevenue"
-        component={AddRevenueScreen}
-        options={{ title: "Add Revenue" }}
-      />
-      <Stack.Screen
-        name="Vet"
-        component={VetScreen}
-        options={{ title: "Veterinary Services" }}
-      />
-      <Stack.Screen
-        name="EditAnimal"
-        component={EditAnimalScreen}
-        options={{ title: "Edit Animal" }}
-      />
-      <Stack.Screen
-        name="AddHealthRecord"
-        component={AddHealthRecordScreen}
-        options={{ title: "Add Health Record" }}
-      />
-      <Stack.Screen
-        name="BookConsultation"
-        component={BookConsultationScreen}
-        options={{ title: "Book Consultation" }}
-      />
-      <Stack.Screen
-        name="VetApplication"
-        component={VetApplicationScreen}
-        options={{ title: "Apply as Vet" }}
-      />
-      <Stack.Screen
-        name="VetDashboard"
-        component={VetDashboardScreen}
-        options={{ title: "Vet Dashboard", headerShown: false }}
-      />
-      <Stack.Screen
-        name="Chat"
-        component={ChatScreen}
-        options={{ title: "Consultation Chat" }}
-      />
-      <Stack.Screen
-        name="AdminVetApprovals"
-        component={AdminVetApprovalsScreen}
-        options={{ title: "Vet Applications" }}
-      />
-      <Stack.Screen
-        name="SupplierDetails"
-        component={SupplierDetailsScreen}
-        options={{ title: "Supplier Info" }}
-      />
+
+      <Stack.Screen name="AddAnimal" component={AddAnimalScreen} />
+      <Stack.Screen name="AnimalDetail" component={AnimalDetailScreen} />
+      <Stack.Screen name="AddReminder" component={AddReminderScreen} />
+      <Stack.Screen name="Inventory" component={InventoryScreen} />
+      <Stack.Screen name="AddInventory" component={AddInventoryScreen} />
+      <Stack.Screen name="Financial" component={FinancialScreen} />
+      <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+      <Stack.Screen name="AddRevenue" component={AddRevenueScreen} />
+      <Stack.Screen name="Vet" component={VetScreen} />
+      <Stack.Screen name="EditAnimal" component={EditAnimalScreen} />
+      <Stack.Screen name="AddHealthRecord" component={AddHealthRecordScreen} />
+      <Stack.Screen name="BookConsultation" component={BookConsultationScreen} />
+      <Stack.Screen name="VetApplication" component={VetApplicationScreen} />
+      <Stack.Screen name="VetDashboard" component={VetDashboardScreen} />
+      <Stack.Screen name="Chat" component={ChatScreen} />
+      <Stack.Screen name="AdminVetApprovals" component={AdminVetApprovalsScreen} />
+      <Stack.Screen name="SupplierDetails" component={SupplierDetailsScreen} />
     </Stack.Navigator>
   );
 }
 
-// Root Navigator
+/* -------------------- ROOT NAV -------------------- */
 function RootNavigator() {
   const { isAuthenticated, loading } = useAuth();
 
-  if (loading) {
-    return null;
-  }
+  if (loading) return null;
 
   return isAuthenticated ? <AppStack /> : <AuthStack />;
 }
 
+/* -------------------- APP ENTRY -------------------- */
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 6000); // splash duration
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleSplashFinish = () => {
+    setShowSplash(false);
+  };
+
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <PaperProvider>
           <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-          {/* <SafeAreaView style={{ flex: 1 }}> */}
+
           <NavigationContainer>
-            <RootNavigator />
+            {showSplash ? (
+              <SplashStackScreen onFinish={handleSplashFinish} />
+            ) : (
+              <RootNavigator />
+            )}
           </NavigationContainer>
-          {/* </SafeAreaView> */}
+
         </PaperProvider>
       </AuthProvider>
     </SafeAreaProvider>

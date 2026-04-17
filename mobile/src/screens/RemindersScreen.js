@@ -182,7 +182,10 @@ const RemindersScreen = ({ navigation }) => {
             )}
           </View>
         </View>
-      </SafeAreaView>
+        
+        
+        <SafeAreaView>
+      
       <ScrollView>
         <ScrollView
           horizontal
@@ -200,6 +203,8 @@ const RemindersScreen = ({ navigation }) => {
             </Chip>
           ))}
         </ScrollView>
+        
+        
 
         <ScrollView
           style={styles.content}
@@ -434,6 +439,8 @@ const RemindersScreen = ({ navigation }) => {
           )}
         </ScrollView>
       </ScrollView>
+      </SafeAreaView>
+      </SafeAreaView>
 
       <FAB
         icon="plus"
