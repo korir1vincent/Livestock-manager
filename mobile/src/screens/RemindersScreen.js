@@ -19,7 +19,6 @@ import {
 } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useAuth } from "../context/AuthContext";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const RemindersScreen = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
@@ -100,54 +99,36 @@ const RemindersScreen = ({ navigation }) => {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case "Vaccination":
-        return "needle";
-      case "Checkup":
-        return "stethoscope";
-      case "Medication":
-        return "pill";
-      case "Breeding":
-        return "baby-carriage";
-      case "Deworming":
-        return "bug";
-      default:
-        return "bell";
+      case "Vaccination": return "needle";
+      case "Checkup": return "stethoscope";
+      case "Medication": return "pill";
+      case "Breeding": return "baby-carriage";
+      case "Deworming": return "bug";
+      default: return "bell";
     }
   };
 
   const getTypeColor = (type) => {
     switch (type) {
-      case "Vaccination":
-        return "#3b82f6";
-      case "Checkup":
-        return "#10b981";
-      case "Medication":
-        return "#8b5cf6";
-      case "Breeding":
-        return "#ec4899";
-      case "Deworming":
-        return "#f59e0b";
-      default:
-        return "#6b7280";
+      case "Vaccination": return "#3b82f6";
+      case "Checkup": return "#10b981";
+      case "Medication": return "#8b5cf6";
+      case "Breeding": return "#ec4899";
+      case "Deworming": return "#f59e0b";
+      default: return "#6b7280";
     }
   };
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case "High":
-        return "#ef4444";
-      case "Medium":
-        return "#f59e0b";
-      case "Low":
-        return "#10b981";
-      default:
-        return "#6b7280";
+      case "High": return "#ef4444";
+      case "Medium": return "#f59e0b";
+      case "Low": return "#10b981";
+      default: return "#6b7280";
     }
   };
 
-  const isOverdue = (date) => {
-    return new Date(date) < new Date();
-  };
+  const isOverdue = (date) => new Date(date) < new Date();
 
   if (loading) {
     return (
@@ -168,279 +149,183 @@ const RemindersScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView>
-        <View style={styles.header}>
-          <Title style={styles.headerTitle}>Reminders</Title>
-          <View style={styles.stats}>
-            <Text style={styles.statsText}>
-              {upcomingReminders.length} upcoming
-            </Text>
-            {overdueReminders.length > 0 && (
-              <Text style={styles.overdueText}>
-                {overdueReminders.length} overdue
-              </Text>
-            )}
-          </View>
-        </View>
-        
-        
-        <SafeAreaView>
-      
-      <ScrollView>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={true}
-          style={styles.filterSection}
-        >
-          {reminderTypes.map((type) => (
-            <Chip
-              key={type}
-              selected={filter === type}
-              onPress={() => setFilter(type)}
-              style={styles.chip}
-            >
-              {type}
-            </Chip>
-          ))}
-        </ScrollView>
-        
-        
-
-        <ScrollView
-          style={styles.content}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
+      {/* Header */}
+      <View style={styles.header}>
+        <Title style={styles.headerTitle}>Reminders</Title>
+        <View style={styles.stats}>
+          <Text style={styles.statsText}>{upcomingReminders.length} upcoming</Text>
           {overdueReminders.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Overdue</Text>
-              {overdueReminders.map((reminder) => (
-                <Card
-                  key={reminder._id}
-                  style={[styles.reminderCard, styles.overdueCard]}
-                >
-                  <Card.Content>
-                    <View style={styles.reminderHeader}>
-                      <View
-                        style={[
-                          styles.iconContainer,
-                          {
-                            backgroundColor: `${getTypeColor(reminder.type)}20`,
-                          },
-                        ]}
-                      >
-                        <Icon
-                          name={getTypeIcon(reminder.type)}
-                          size={24}
-                          color={getTypeColor(reminder.type)}
-                        />
-                      </View>
-                      <View style={styles.reminderInfo}>
-                        <Text style={styles.reminderType}>{reminder.type}</Text>
-                        <Text style={styles.reminderDescription}>
-                          {reminder.description}
-                        </Text>
-                        {reminder.animalId && (
-                          <Text style={styles.animalName}>
-                            Animal: {reminder.animalId.name} (
-                            {reminder.animalId.tagId})
-                          </Text>
-                        )}
-                      </View>
-                    </View>
-
-                    <View style={styles.reminderFooter}>
-                      <View style={styles.dateContainer}>
-                        <Icon name="calendar" size={16} color="#ef4444" />
-                        <Text style={styles.overdueDate}>
-                          {new Date(reminder.date).toLocaleDateString()}
-                        </Text>
-                      </View>
-                      <View style={styles.actions}>
-                        <TouchableOpacity
-                          onPress={() => completeReminder(reminder._id)}
-                          style={styles.actionButton}
-                        >
-                          <Icon name="check" size={20} color="#10b981" />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => deleteReminder(reminder._id)}
-                          style={styles.actionButton}
-                        >
-                          <Icon name="delete" size={20} color="#ef4444" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              ))}
-            </View>
+            <Text style={styles.overdueText}>{overdueReminders.length} overdue</Text>
           )}
+        </View>
+      </View>
 
-          {upcomingReminders.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Upcoming</Text>
-              {upcomingReminders.map((reminder) => (
-                <Card key={reminder._id} style={styles.reminderCard}>
-                  <Card.Content>
-                    <View style={styles.reminderHeader}>
-                      <View
-                        style={[
-                          styles.iconContainer,
-                          {
-                            backgroundColor: `${getTypeColor(reminder.type)}20`,
-                          },
-                        ]}
-                      >
-                        <Icon
-                          name={getTypeIcon(reminder.type)}
-                          size={24}
-                          color={getTypeColor(reminder.type)}
-                        />
-                      </View>
-                      <View style={styles.reminderInfo}>
-                        <View style={styles.typeRow}>
-                          <Text style={styles.reminderType}>
-                            {reminder.type}
-                          </Text>
-                          {reminder.priority && (
-                            <View
-                              style={[
-                                styles.priorityBadge,
-                                {
-                                  backgroundColor: getPriorityColor(
-                                    reminder.priority,
-                                  ),
-                                },
-                              ]}
-                            >
-                              <Text style={styles.priorityText}>
-                                {reminder.priority}
-                              </Text>
-                            </View>
-                          )}
-                        </View>
-                        <Text style={styles.reminderDescription}>
-                          {reminder.description}
-                        </Text>
-                        {reminder.animalId && (
-                          <Text style={styles.animalName}>
-                            Animal: {reminder.animalId.name} (
-                            {reminder.animalId.tagId})
-                          </Text>
-                        )}
-                      </View>
-                    </View>
-
-                    <View style={styles.reminderFooter}>
-                      <View style={styles.dateContainer}>
-                        <Icon name="calendar" size={16} color="#6b7280" />
-                        <Text style={styles.reminderDate}>
-                          {new Date(reminder.date).toLocaleDateString()}
-                        </Text>
-                      </View>
-                      <View style={styles.actions}>
-                        <TouchableOpacity
-                          onPress={() => completeReminder(reminder._id)}
-                          style={styles.actionButton}
-                        >
-                          <Icon name="check" size={20} color="#10b981" />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={() => deleteReminder(reminder._id)}
-                          style={styles.actionButton}
-                        >
-                          <Icon name="delete" size={20} color="#ef4444" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              ))}
-            </View>
-          )}
-
-          {completedReminders.length > 0 && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Completed</Text>
-              {completedReminders.map((reminder) => (
-                <Card
-                  key={reminder._id}
-                  style={[styles.reminderCard, styles.completedCard]}
-                >
-                  <Card.Content>
-                    <View style={styles.reminderHeader}>
-                      <View
-                        style={[
-                          styles.iconContainer,
-                          { backgroundColor: "#e5e7eb" },
-                        ]}
-                      >
-                        <Icon
-                          name={getTypeIcon(reminder.type)}
-                          size={24}
-                          color="#9ca3af"
-                        />
-                      </View>
-                      <View style={styles.reminderInfo}>
-                        <Text
-                          style={[styles.reminderType, styles.completedText]}
-                        >
-                          {reminder.type}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.reminderDescription,
-                            styles.completedText,
-                          ]}
-                        >
-                          {reminder.description}
-                        </Text>
-                        {reminder.animalId && (
-                          <Text
-                            style={[styles.animalName, styles.completedText]}
-                          >
-                            Animal: {reminder.animalId.name} (
-                            {reminder.animalId.tagId})
-                          </Text>
-                        )}
-                      </View>
-                    </View>
-
-                    <View style={styles.reminderFooter}>
-                      <View style={styles.dateContainer}>
-                        <Icon name="check-circle" size={16} color="#10b981" />
-                        <Text style={styles.completedDate}>
-                          Completed:{" "}
-                          {new Date(reminder.completedAt).toLocaleDateString()}
-                        </Text>
-                      </View>
-                    </View>
-                  </Card.Content>
-                </Card>
-              ))}
-            </View>
-          )}
-
-          {filteredReminders.length === 0 && (
-            <View style={styles.emptyContainer}>
-              <Icon name="bell-off" size={64} color="#d1d5db" />
-              <Text style={styles.emptyText}>No reminders found</Text>
-              <Button
-                mode="contained"
-                onPress={() => navigation.navigate("AddReminder")}
-                style={styles.emptyButton}
-                buttonColor="#16a34a"
-              >
-                Create Your First Reminder
-              </Button>
-            </View>
-          )}
-        </ScrollView>
+      {/* Filter chips */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.filterSection}
+        contentContainerStyle={styles.filterContent}
+      >
+        {reminderTypes.map((type) => (
+          <Chip
+            key={type}
+            selected={filter === type}
+            onPress={() => setFilter(type)}
+            style={styles.chip}
+          >
+            {type}
+          </Chip>
+        ))}
       </ScrollView>
-      </SafeAreaView>
-      </SafeAreaView>
+
+      {/* Main content */}
+      <ScrollView
+        style={styles.content}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {overdueReminders.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Overdue</Text>
+            {overdueReminders.map((reminder) => (
+              <Card key={reminder._id} style={[styles.reminderCard, styles.overdueCard]}>
+                <Card.Content>
+                  <View style={styles.reminderHeader}>
+                    <View style={[styles.iconContainer, { backgroundColor: `${getTypeColor(reminder.type)}20` }]}>
+                      <Icon name={getTypeIcon(reminder.type)} size={24} color={getTypeColor(reminder.type)} />
+                    </View>
+                    <View style={styles.reminderInfo}>
+                      <Text style={styles.reminderType}>{reminder.type}</Text>
+                      <Text style={styles.reminderDescription}>{reminder.description}</Text>
+                      {reminder.animalId && (
+                        <Text style={styles.animalName}>
+                          Animal: {reminder.animalId.name} ({reminder.animalId.tagId})
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                  <View style={styles.reminderFooter}>
+                    <View style={styles.dateContainer}>
+                      <Icon name="calendar" size={16} color="#ef4444" />
+                      <Text style={styles.overdueDate}>
+                        {new Date(reminder.date).toLocaleDateString()}
+                      </Text>
+                    </View>
+                    <View style={styles.actions}>
+                      <TouchableOpacity onPress={() => completeReminder(reminder._id)} style={styles.actionButton}>
+                        <Icon name="check" size={20} color="#10b981" />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => deleteReminder(reminder._id)} style={styles.actionButton}>
+                        <Icon name="delete" size={20} color="#ef4444" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+            ))}
+          </View>
+        )}
+
+        {upcomingReminders.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Upcoming</Text>
+            {upcomingReminders.map((reminder) => (
+              <Card key={reminder._id} style={styles.reminderCard}>
+                <Card.Content>
+                  <View style={styles.reminderHeader}>
+                    <View style={[styles.iconContainer, { backgroundColor: `${getTypeColor(reminder.type)}20` }]}>
+                      <Icon name={getTypeIcon(reminder.type)} size={24} color={getTypeColor(reminder.type)} />
+                    </View>
+                    <View style={styles.reminderInfo}>
+                      <View style={styles.typeRow}>
+                        <Text style={styles.reminderType}>{reminder.type}</Text>
+                        {reminder.priority && (
+                          <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor(reminder.priority) }]}>
+                            <Text style={styles.priorityText}>{reminder.priority}</Text>
+                          </View>
+                        )}
+                      </View>
+                      <Text style={styles.reminderDescription}>{reminder.description}</Text>
+                      {reminder.animalId && (
+                        <Text style={styles.animalName}>
+                          Animal: {reminder.animalId.name} ({reminder.animalId.tagId})
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                  <View style={styles.reminderFooter}>
+                    <View style={styles.dateContainer}>
+                      <Icon name="calendar" size={16} color="#6b7280" />
+                      <Text style={styles.reminderDate}>
+                        {new Date(reminder.date).toLocaleDateString()}
+                      </Text>
+                    </View>
+                    <View style={styles.actions}>
+                      <TouchableOpacity onPress={() => completeReminder(reminder._id)} style={styles.actionButton}>
+                        <Icon name="check" size={20} color="#10b981" />
+                      </TouchableOpacity>
+                      <TouchableOpacity onPress={() => deleteReminder(reminder._id)} style={styles.actionButton}>
+                        <Icon name="delete" size={20} color="#ef4444" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+            ))}
+          </View>
+        )}
+
+        {completedReminders.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Completed</Text>
+            {completedReminders.map((reminder) => (
+              <Card key={reminder._id} style={[styles.reminderCard, styles.completedCard]}>
+                <Card.Content>
+                  <View style={styles.reminderHeader}>
+                    <View style={[styles.iconContainer, { backgroundColor: "#e5e7eb" }]}>
+                      <Icon name={getTypeIcon(reminder.type)} size={24} color="#9ca3af" />
+                    </View>
+                    <View style={styles.reminderInfo}>
+                      <Text style={[styles.reminderType, styles.completedText]}>{reminder.type}</Text>
+                      <Text style={[styles.reminderDescription, styles.completedText]}>{reminder.description}</Text>
+                      {reminder.animalId && (
+                        <Text style={[styles.animalName, styles.completedText]}>
+                          Animal: {reminder.animalId.name} ({reminder.animalId.tagId})
+                        </Text>
+                      )}
+                    </View>
+                  </View>
+                  <View style={styles.reminderFooter}>
+                    <View style={styles.dateContainer}>
+                      <Icon name="check-circle" size={16} color="#10b981" />
+                      <Text style={styles.completedDate}>
+                        Completed: {new Date(reminder.completedAt).toLocaleDateString()}
+                      </Text>
+                    </View>
+                  </View>
+                </Card.Content>
+              </Card>
+            ))}
+          </View>
+        )}
+
+        {filteredReminders.length === 0 && (
+          <View style={styles.emptyContainer}>
+            <Icon name="bell-off" size={64} color="#d1d5db" />
+            <Text style={styles.emptyText}>No reminders found</Text>
+            <Button
+              mode="contained"
+              onPress={() => navigation.navigate("AddReminder")}
+              style={styles.emptyButton}
+              buttonColor="#16a34a"
+            >
+              Create Your First Reminder
+            </Button>
+          </View>
+        )}
+      </ScrollView>
 
       <FAB
         icon="plus"
@@ -488,12 +373,15 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   filterSection: {
-    flexDirection: "row",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    maxHeight: 56,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
     borderBottomColor: "#e5e7eb",
+  },
+  filterContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    alignItems: "center",
   },
   chip: {
     marginRight: 8,
@@ -620,9 +508,8 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: "absolute",
-    margin: 16,
-    right: 0,
-    bottom: 0,
+    right: 16,
+    bottom: 16,
     backgroundColor: "#16a34a",
   },
 });

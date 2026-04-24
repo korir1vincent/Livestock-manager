@@ -148,7 +148,7 @@ const VetApplicationScreen = ({ navigation }) => {
             />
 
             <TextInput
-              label="Consultation Fee (USD) *"
+              label="Consultation Fee (KES) *"
               value={formData.consultationFee}
               onChangeText={(v) => updateField("consultationFee", v)}
               mode="outlined"

@@ -8,6 +8,8 @@ import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { AuthProvider, useAuth } from "./src/context/AuthContext";
+import { requestNotificationPermissions } from "./src/utils/notifications";
+import * as Notifications from "expo-notifications";
 
 // Screens
 import LoginScreen from "./src/screens/LoginScreen";
@@ -35,6 +37,13 @@ import ChatScreen from "./src/screens/ChatScreen";
 import AdminVetApprovalsScreen from "./src/screens/AdminVetApprovalsScreen";
 import SupplierDetailsScreen from "./src/screens/SupplierDetailsScreen";
 import SplashScreen from "./src/screens/SplashScreen";
+import EditProfileScreen from "./src/screens/EditProfileScreen";
+import NotificationsSettingsScreen from "./src/screens/NotificationsSettingsScreen";
+import LanguageSettingsScreen from "./src/screens/LanguageSettingsScreen";
+import DataStorageScreen from "./src/screens/DataStorageScreen";
+import HelpCenterScreen from "./src/screens/HelpCenterScreen";
+import PrivacyTermsScreen from "./src/screens/PrivacyTermsScreen";
+import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 
 // Navigators
 const Stack = createNativeStackNavigator();
@@ -46,12 +55,7 @@ function SplashStackScreen({ onFinish }) {
   return (
     <SplashStack.Navigator screenOptions={{ headerShown: false }}>
       <SplashStack.Screen name="Splash">
-        {(props) => (
-          <SplashScreen
-            {...props}
-            onFinish={onFinish}
-          />
-        )}
+        {(props) => <SplashScreen {...props} onFinish={onFinish} />}
       </SplashStack.Screen>
     </SplashStack.Navigator>
   );
@@ -107,6 +111,7 @@ function AuthStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
     </Stack.Navigator>
   );
 }
@@ -132,12 +137,48 @@ function AppStack() {
       <Stack.Screen name="Vet" component={VetScreen} />
       <Stack.Screen name="EditAnimal" component={EditAnimalScreen} />
       <Stack.Screen name="AddHealthRecord" component={AddHealthRecordScreen} />
-      <Stack.Screen name="BookConsultation" component={BookConsultationScreen} />
+      <Stack.Screen
+        name="BookConsultation"
+        component={BookConsultationScreen}
+      />
       <Stack.Screen name="VetApplication" component={VetApplicationScreen} />
       <Stack.Screen name="VetDashboard" component={VetDashboardScreen} />
       <Stack.Screen name="Chat" component={ChatScreen} />
-      <Stack.Screen name="AdminVetApprovals" component={AdminVetApprovalsScreen} />
+      <Stack.Screen
+        name="AdminVetApprovals"
+        component={AdminVetApprovalsScreen}
+      />
       <Stack.Screen name="SupplierDetails" component={SupplierDetailsScreen} />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{ title: "Edit Profile" }}
+      />
+      <Stack.Screen
+        name="NotificationsSettings"
+        component={NotificationsSettingsScreen}
+        options={{ title: "Notifications" }}
+      />
+      <Stack.Screen
+        name="LanguageSettings"
+        component={LanguageSettingsScreen}
+        options={{ title: "Language" }}
+      />
+      <Stack.Screen
+        name="DataStorage"
+        component={DataStorageScreen}
+        options={{ title: "Data & Storage" }}
+      />
+      <Stack.Screen
+        name="HelpCenter"
+        component={HelpCenterScreen}
+        options={{ title: "Help Center" }}
+      />
+      <Stack.Screen
+        name="PrivacyTerms"
+        component={PrivacyTermsScreen}
+        options={{ title: "Legal" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -154,6 +195,19 @@ function RootNavigator() {
 /* -------------------- APP ENTRY -------------------- */
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  useEffect(() => {
+    // Request permissions on app start
+    requestNotificationPermissions();
+
+    // Handle notification tap when app is backgrounded
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log("Notification tapped:", response);
+      },
+    );
+
+    return () => subscription.remove();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -180,7 +234,6 @@ export default function App() {
               <RootNavigator />
             )}
           </NavigationContainer>
-
         </PaperProvider>
       </AuthProvider>
     </SafeAreaProvider>
