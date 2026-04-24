@@ -1,4 +1,3 @@
-// src/screens/AnimalDetailScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Card, Title, Text, Button, ActivityIndicator, Chip } from 'react-native-paper';

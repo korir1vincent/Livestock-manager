@@ -3,15 +3,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
 
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 // Middleware
-app.use(cors({
-  origin: '*',
-  credentials: true
-}));
+app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -30,23 +34,17 @@ app.use('/api/inventory', require('./routes/inventoryRoutes'));
 app.use('/api/financial', require('./routes/financialRoutes'));
 app.use('/api/vet', require('./routes/vetRoutes'));
 
-// Health check endpoint
+// Health check
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'OK', 
-    message: 'Server running', 
-    timestamp: new Date() 
-  });
+  res.json({ status: 'OK', message: 'Server running', timestamp: new Date() });
 });
 
-// Error handling middleware
+// Error handling
 app.use(require('./middleware/errorHandler'));
 
-// Start server - Listen on all network interfaces
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on http://0.0.0.0:${PORT}`);
   console.log(`📱 Local: http://localhost:${PORT}`);
-  console.log(`📱 Network: http://192.168.0.105:${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
 });

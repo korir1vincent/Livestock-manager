@@ -1,4 +1,3 @@
-// src/screens/PrivacyTermsScreen.js
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Card, Title, Text } from "react-native-paper";

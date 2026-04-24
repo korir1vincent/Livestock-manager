@@ -1,3 +1,4 @@
+// backend/src/models/Consultation.js
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
@@ -13,7 +14,15 @@ const messageSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    required: true
+    default: ''
+  },
+  mediaUrl: {
+    type: String
+  },
+  mediaType: {
+    type: String,
+    enum: ['image', 'video', null],
+    default: null
   },
   createdAt: {
     type: Date,

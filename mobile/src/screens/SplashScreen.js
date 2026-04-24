@@ -1,4 +1,3 @@
-// src/screens/SplashScreen.js
 
 import React, { useEffect, useRef } from "react";
 import { View, StyleSheet, Animated, Dimensions } from "react-native";
@@ -74,7 +73,7 @@ export default function SplashScreen() {
         
         {/* 🔥 YOUR LOGO IMAGE HERE */}
         <Animated.Image
-          source={require("../../assets/icoon.jpeg")} // <-- adjust if needed
+          source={require("../../assets/icon-backup.jpeg")} // <-- adjust if needed
           style={[
             styles.logoImage,
             {

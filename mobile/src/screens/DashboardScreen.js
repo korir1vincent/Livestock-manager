@@ -13,7 +13,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useAuth } from "../context/AuthContext";
 import * as Location from "expo-location";
 
-const WEATHER_API_KEY = "9f3a28609c7627d64f929d1b0e70c7d5"; 
+const WEATHER_API_KEY = "9f3a28609c7627d64f929d1b0e70c7d5";
 
 const DashboardScreen = ({ navigation }) => {
   const [stats, setStats] = useState(null);
@@ -46,53 +46,61 @@ const DashboardScreen = ({ navigation }) => {
   };
 
   const fetchWeather = async () => {
-  try {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") return;
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") return;
 
-    const location = await Location.getCurrentPositionAsync({});
-    const { latitude, longitude } = location.coords;
+      const location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
 
-    const res = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${WEATHER_API_KEY}&units=metric`
-    );
+      const res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${WEATHER_API_KEY}&units=metric`,
+      );
 
-    const data = await res.json();
+      const data = await res.json();
 
-    // 🔴 HANDLE API ERROR HERE
-    if (data.cod !== 200) {
-      console.log("Weather API error:", data.message);
-      return;
+      // 🔴 HANDLE API ERROR HERE
+      if (data.cod !== 200) {
+        console.log("Weather API error:", data.message);
+        return;
+      }
+
+      // ✅ SAFE TO USE DATA NOW
+      setWeather({
+        temp: Math.round(data.main.temp),
+        description: data.weather[0].description
+          .split(" ")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" "),
+        humidity: data.main.humidity,
+        city: data.name,
+        icon: data.weather[0].main,
+      });
+    } catch (error) {
+      console.error("Weather error:", error);
     }
-
-    // ✅ SAFE TO USE DATA NOW
-    setWeather({
-      temp: Math.round(data.main.temp),
-      description: data.weather[0].description
-        .split(" ")
-        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" "),
-      humidity: data.main.humidity,
-      city: data.name,
-      icon: data.weather[0].main,
-    });
-  } catch (error) {
-    console.error("Weather error:", error);
-  }
-};
+  };
 
   const getWeatherIcon = (icon) => {
     switch (icon) {
-      case "Clear": return "weather-sunny";
-      case "Clouds": return "weather-cloudy";
-      case "Rain": return "weather-rainy";
-      case "Drizzle": return "weather-partly-rainy";
-      case "Thunderstorm": return "weather-lightning-rainy";
-      case "Snow": return "weather-snowy";
+      case "Clear":
+        return "weather-sunny";
+      case "Clouds":
+        return "weather-cloudy";
+      case "Rain":
+        return "weather-rainy";
+      case "Drizzle":
+        return "weather-partly-rainy";
+      case "Thunderstorm":
+        return "weather-lightning-rainy";
+      case "Snow":
+        return "weather-snowy";
       case "Mist":
       case "Fog":
-      case "Haze": return "weather-fog";
-      default: return "weather-cloudy";
+      case "Haze":
+        return "weather-fog";
+      default:
+        return "weather-cloudy";
     }
   };
 
@@ -119,7 +127,7 @@ const DashboardScreen = ({ navigation }) => {
     >
       {/* Header */}
       <View style={styles.header}>
-        <Title style={styles.headerTitle}>Dashboard</Title>
+        <Title style={styles.headerTitle}>Livestock Care</Title>
         <Text style={styles.headerSubtitle}>Welcome back, {user?.name}</Text>
       </View>
 
@@ -239,7 +247,7 @@ const DashboardScreen = ({ navigation }) => {
           >
             <Icon name="stethoscope" size={32} color="#fff" />
             <Text style={styles.actionTitle}>Vet Consult</Text>
-            <Text style={styles.actionDesc}>From $10</Text>
+            <Text style={styles.actionDesc}>From KES 300</Text>
           </TouchableOpacity>
 
           {user?.role === "farmer" && (
@@ -294,7 +302,9 @@ const DashboardScreen = ({ navigation }) => {
                       <Icon name="bell" size={20} color="#f59e0b" />
                     </View>
                     <View style={styles.reminderContent}>
-                      <Text style={styles.reminderTitle}>{reminder.description}</Text>
+                      <Text style={styles.reminderTitle}>
+                        {reminder.description}
+                      </Text>
                       <Text style={styles.reminderDate}>
                         {new Date(reminder.date).toLocaleDateString()}
                       </Text>
@@ -318,9 +328,13 @@ const DashboardScreen = ({ navigation }) => {
         <View style={styles.alertCard}>
           <View style={styles.alertHeader}>
             <Icon name="alert-circle" size={20} color="#ef4444" />
-            <Text style={styles.alertTitle}>Charlie (G-001) - Respiratory Issue</Text>
+            <Text style={styles.alertTitle}>
+              Charlie (G-001) - Respiratory Issue
+            </Text>
           </View>
-          <Text style={styles.alertDesc}>Showing signs of infection. Treatment started.</Text>
+          <Text style={styles.alertDesc}>
+            Showing signs of infection. Treatment started.
+          </Text>
           <TouchableOpacity>
             <Text style={styles.alertLink}>View Details →</Text>
           </TouchableOpacity>
@@ -332,13 +346,34 @@ const DashboardScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#f3f4f6" },
-  loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#f3f4f6" },
-  header: { backgroundColor: "#16a34a", padding: 24, paddingTop: 60, paddingBottom: 32 },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f3f4f6",
+  },
+  header: {
+    backgroundColor: "#16a34a",
+    padding: 24,
+    paddingTop: 60,
+    paddingBottom: 32,
+  },
   headerTitle: { color: "#fff", fontSize: 32, fontWeight: "bold" },
   headerSubtitle: { color: "#dcfce7", fontSize: 16 },
-  statsGrid: { flexDirection: "row", flexWrap: "wrap", padding: 12, marginTop: -24 },
+  statsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    padding: 12,
+    marginTop: -24,
+  },
   statCard: { width: "48%", margin: "1%", elevation: 3 },
-  statNumber: { fontSize: 32, fontWeight: "bold", marginTop: 12, marginBottom: 4, color: "#1f2937" },
+  statNumber: {
+    fontSize: 32,
+    fontWeight: "bold",
+    marginTop: 12,
+    marginBottom: 4,
+    color: "#1f2937",
+  },
   statLabel: { fontSize: 14, color: "#6b7280" },
   weatherWidget: {
     margin: 16,
@@ -349,28 +384,91 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-  weatherCity: { color: "#fff", fontSize: 16, fontWeight: "700", marginBottom: 2 },
+  weatherCity: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 2,
+  },
   weatherLabel: { color: "#dbeafe", fontSize: 13, marginBottom: 4 },
-  weatherTemp: { color: "#fff", fontSize: 36, fontWeight: "bold", marginBottom: 4 },
+  weatherTemp: {
+    color: "#fff",
+    fontSize: 36,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
   weatherDesc: { color: "#dbeafe", fontSize: 13 },
   section: { padding: 16 },
-  sectionTitle: { fontSize: 20, fontWeight: "bold", color: "#1f2937", marginBottom: 16 },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#1f2937",
+    marginBottom: 16,
+  },
   actionsGrid: { flexDirection: "row", flexWrap: "wrap", marginHorizontal: -6 },
-  actionButton: { width: "48%", margin: "1%", borderRadius: 16, padding: 20, minHeight: 140 },
-  actionTitle: { color: "#fff", fontSize: 18, fontWeight: "bold", marginTop: 12, marginBottom: 4 },
+  actionButton: {
+    width: "48%",
+    margin: "1%",
+    borderRadius: 16,
+    padding: 20,
+    minHeight: 140,
+  },
+  actionTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginTop: 12,
+    marginBottom: 4,
+  },
   actionDesc: { color: "rgba(255,255,255,0.9)", fontSize: 13 },
   card: { elevation: 2 },
-  reminderItem: { flexDirection: "row", alignItems: "center", paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
-  reminderIcon: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fef3c7", justifyContent: "center", alignItems: "center", marginRight: 12 },
+  reminderItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#e5e7eb",
+  },
+  reminderIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "#fef3c7",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 12,
+  },
   reminderContent: { flex: 1 },
-  reminderTitle: { fontSize: 14, fontWeight: "600", color: "#1f2937", marginBottom: 2 },
+  reminderTitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#1f2937",
+    marginBottom: 2,
+  },
   reminderDate: { fontSize: 12, color: "#6b7280" },
-  markDoneButton: { backgroundColor: "#16a34a", paddingHorizontal: 16, paddingVertical: 8, borderRadius: 8 },
+  markDoneButton: {
+    backgroundColor: "#16a34a",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
   markDoneText: { color: "#fff", fontSize: 12, fontWeight: "600" },
   emptyText: { textAlign: "center", color: "#9ca3af", paddingVertical: 24 },
-  alertCard: { backgroundColor: "#fef2f2", borderWidth: 1, borderColor: "#fecaca", borderRadius: 12, padding: 16 },
+  alertCard: {
+    backgroundColor: "#fef2f2",
+    borderWidth: 1,
+    borderColor: "#fecaca",
+    borderRadius: 12,
+    padding: 16,
+  },
   alertHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  alertTitle: { fontSize: 15, fontWeight: "600", color: "#991b1b", marginLeft: 8, flex: 1 },
+  alertTitle: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#991b1b",
+    marginLeft: 8,
+    flex: 1,
+  },
   alertDesc: { fontSize: 13, color: "#b91c1c", marginBottom: 8 },
   alertLink: { fontSize: 13, color: "#dc2626", fontWeight: "600" },
 });

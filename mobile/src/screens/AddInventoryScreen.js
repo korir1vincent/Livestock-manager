@@ -1,4 +1,3 @@
-// src/screens/AddInventoryScreen.js
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Title, HelperText, SegmentedButtons } from 'react-native-paper';
@@ -235,6 +234,7 @@ const AddInventoryScreen = ({ navigation }) => {
             mode="outlined"
             onPress={() => navigation.goBack()}
             style={styles.button}
+            buttonColor="#e20f1a"
           >
             Cancel
           </Button>

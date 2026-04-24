@@ -232,7 +232,6 @@
 
 // export default ProfileScreen;
 
-// src/screens/ProfileScreen.js
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import {

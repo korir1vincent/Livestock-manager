@@ -1,4 +1,3 @@
-// src/screens/LanguageSettingsScreen.js
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Card, Title, Text } from "react-native-paper";

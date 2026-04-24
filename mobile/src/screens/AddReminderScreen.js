@@ -1,4 +1,3 @@
-// src/screens/AddReminderScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Title, HelperText, SegmentedButtons } from 'react-native-paper';
@@ -189,6 +188,7 @@ const AddReminderScreen = ({ navigation }) => {
             mode="outlined"
             onPress={() => navigation.goBack()}
             style={styles.button}
+            buttonColor="#e20f1a"
           >
             Cancel
           </Button>

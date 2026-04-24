@@ -1,4 +1,3 @@
-// src/screens/FinancialScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, RefreshControl, TouchableOpacity } from 'react-native';
 import { Card, Title, Text, Button, ActivityIndicator, SegmentedButtons, FAB } from 'react-native-paper';
@@ -136,7 +135,7 @@ const FinancialScreen = ({ navigation }) => {
                     styles.statValue,
                     summary.netProfit >= 0 ? styles.profitPositive : styles.profitNegative
                   ]}>
-                    ${summary.netProfit.toFixed(2)}
+                    KES {summary.netProfit.toFixed(2)}
                   </Text>
                 </Card.Content>
               </Card>
@@ -155,7 +154,7 @@ const FinancialScreen = ({ navigation }) => {
                             <Icon name={getCategoryIcon(category)} size={20} color={getCategoryColor(category)} />
                             <Text style={styles.categoryName}>{category}</Text>
                           </View>
-                          <Text style={styles.categoryAmount}>${amount.toFixed(2)}</Text>
+                          <Text style={styles.categoryAmount}>KES {amount.toFixed(2)}</Text>
                         </View>
                         <View style={styles.progressBar}>
                           <View
@@ -230,7 +229,7 @@ const FinancialScreen = ({ navigation }) => {
                         </Text>
                       </View>
                       <Text style={[styles.transactionAmount, styles.expenseAmount]}>
-                        -${expense.amount.toFixed(2)}
+                        -KES {expense.amount.toFixed(2)}
                       </Text>
                     </View>
                   </Card.Content>
@@ -276,7 +275,7 @@ const FinancialScreen = ({ navigation }) => {
                         </Text>
                       </View>
                       <Text style={[styles.transactionAmount, styles.revenueAmount]}>
-                        +${revenue.amount.toFixed(2)}
+                        +KES{revenue.amount.toFixed(2)}
                       </Text>
                     </View>
                   </Card.Content>

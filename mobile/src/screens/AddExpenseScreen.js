@@ -1,11 +1,10 @@
-// src/screens/AddExpenseScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Title, HelperText, SegmentedButtons } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '../context/AuthContext';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 const AddExpenseScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
     category: 'Feed',
@@ -66,6 +65,7 @@ const AddExpenseScreen = ({ navigation }) => {
   };
 
   return (
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
@@ -170,6 +170,7 @@ const AddExpenseScreen = ({ navigation }) => {
           />
 
           {error ? <HelperText type="error">{error}</HelperText> : null}
+          
 
           <Button
             mode="contained"
@@ -186,12 +187,14 @@ const AddExpenseScreen = ({ navigation }) => {
             mode="outlined"
             onPress={() => navigation.goBack()}
             style={styles.button}
+            buttonColor="#e20f1a"
           >
             Cancel
           </Button>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

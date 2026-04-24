@@ -1,4 +1,3 @@
-// src/screens/ScannerScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, Alert, ScrollView } from 'react-native';
 import { Button, Text, Card, Title, ActivityIndicator } from 'react-native-paper';

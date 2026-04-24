@@ -1,4 +1,3 @@
-// src/screens/AnimalsScreen.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -36,7 +35,6 @@ const AnimalsScreen = ({ navigation }) => {
     "Goat",
     "Sheep",
     "Pig",
-    "Poultry",
     "Other",
   ];
   const healthStatuses = [
@@ -150,9 +148,7 @@ const AnimalsScreen = ({ navigation }) => {
             Add Animal
           </Button>
         </View>
-      
 
-      
         <View style={styles.searchSection}>
           <Searchbar
             placeholder="Search by name or tag ID"
@@ -197,9 +193,8 @@ const AnimalsScreen = ({ navigation }) => {
             </Chip>
           ))}
         </ScrollView>
-        </SafeAreaView>
-        <ScrollView>
-
+      </SafeAreaView>
+      <ScrollView>
         <ScrollView
           style={styles.listContainer}
           refreshControl={

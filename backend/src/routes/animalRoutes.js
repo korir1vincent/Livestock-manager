@@ -1,4 +1,3 @@
-// backend/src/routes/animalRoutes.js
 const express = require('express');
 const router = express.Router();
 const {

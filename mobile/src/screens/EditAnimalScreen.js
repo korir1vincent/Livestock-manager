@@ -1,9 +1,21 @@
-// src/screens/EditAnimalScreen.js
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
-import { TextInput, Button, Title, HelperText, SegmentedButtons, ActivityIndicator } from 'react-native-paper';
-import { useAuth } from '../context/AuthContext';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import {
+  TextInput,
+  Button,
+  Title,
+  HelperText,
+  SegmentedButtons,
+  ActivityIndicator,
+} from "react-native-paper";
+import { useAuth } from "../context/AuthContext";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const EditAnimalScreen = ({ route, navigation }) => {
   const { animalId } = route.params;
@@ -11,7 +23,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const { getAuthenticatedAxios } = useAuth();
 
   useEffect(() => {
@@ -26,19 +38,19 @@ const EditAnimalScreen = ({ route, navigation }) => {
       setFormData({
         ...animal,
         dateOfBirth: new Date(animal.dateOfBirth),
-        weight: animal.weight ? String(animal.weight) : ''
+        weight: animal.weight ? String(animal.weight) : "",
       });
     } catch (err) {
-      setError('Failed to load animal');
+      setError("Failed to load animal");
     } finally {
       setLoading(false);
     }
   };
 
   const handleSubmit = async () => {
-    setError('');
+    setError("");
     if (!formData.name || !formData.tagId || !formData.type) {
-      setError('Please fill in required fields (Name, Tag ID, Type)');
+      setError("Please fill in required fields (Name, Tag ID, Type)");
       return;
     }
     setSaving(true);
@@ -46,12 +58,12 @@ const EditAnimalScreen = ({ route, navigation }) => {
       const api = getAuthenticatedAxios();
       const dataToSend = {
         ...formData,
-        weight: formData.weight ? parseFloat(formData.weight) : undefined
+        weight: formData.weight ? parseFloat(formData.weight) : undefined,
       };
       await api.put(`/animals/${animalId}`, dataToSend);
       navigation.goBack();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to update animal');
+      setError(err.response?.data?.message || "Failed to update animal");
     } finally {
       setSaving(false);
     }
@@ -71,7 +83,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -81,7 +93,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
           <TextInput
             label="Name *"
             value={formData.name}
-            onChangeText={(value) => updateField('name', value)}
+            onChangeText={(value) => updateField("name", value)}
             mode="outlined"
             style={styles.input}
           />
@@ -89,19 +101,19 @@ const EditAnimalScreen = ({ route, navigation }) => {
           <TextInput
             label="Tag ID *"
             value={formData.tagId}
-            onChangeText={(value) => updateField('tagId', value)}
+            onChangeText={(value) => updateField("tagId", value)}
             mode="outlined"
             style={styles.input}
           />
 
           <SegmentedButtons
             value={formData.type}
-            onValueChange={(value) => updateField('type', value)}
+            onValueChange={(value) => updateField("type", value)}
             buttons={[
-              { value: 'Cattle', label: 'Cattle' },
-              { value: 'Goat', label: 'Goat' },
-              { value: 'Sheep', label: 'Sheep' },
-              { value: 'Pig', label: 'Pig' }
+              { value: "Cattle", label: "Cattle" },
+              { value: "Goat", label: "Goat" },
+              { value: "Sheep", label: "Sheep" },
+              { value: "Pig", label: "Pig" },
             ]}
             style={styles.input}
           />
@@ -109,17 +121,17 @@ const EditAnimalScreen = ({ route, navigation }) => {
           <TextInput
             label="Breed"
             value={formData.breed}
-            onChangeText={(value) => updateField('breed', value)}
+            onChangeText={(value) => updateField("breed", value)}
             mode="outlined"
             style={styles.input}
           />
 
           <SegmentedButtons
             value={formData.gender}
-            onValueChange={(value) => updateField('gender', value)}
+            onValueChange={(value) => updateField("gender", value)}
             buttons={[
-              { value: 'Male', label: 'Male' },
-              { value: 'Female', label: 'Female' }
+              { value: "Male", label: "Male" },
+              { value: "Female", label: "Female" },
             ]}
             style={styles.input}
           />
@@ -139,7 +151,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
               display="default"
               onChange={(event, selectedDate) => {
                 setShowDatePicker(false);
-                if (selectedDate) updateField('dateOfBirth', selectedDate);
+                if (selectedDate) updateField("dateOfBirth", selectedDate);
               }}
               maximumDate={new Date()}
             />
@@ -148,7 +160,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
           <TextInput
             label="Weight (kg)"
             value={formData.weight}
-            onChangeText={(value) => updateField('weight', value)}
+            onChangeText={(value) => updateField("weight", value)}
             mode="outlined"
             keyboardType="numeric"
             style={styles.input}
@@ -157,28 +169,28 @@ const EditAnimalScreen = ({ route, navigation }) => {
           <TextInput
             label="Color"
             value={formData.color}
-            onChangeText={(value) => updateField('color', value)}
+            onChangeText={(value) => updateField("color", value)}
             mode="outlined"
             style={styles.input}
           />
 
           <SegmentedButtons
             value={formData.healthStatus}
-            onValueChange={(value) => updateField('healthStatus', value)}
+            onValueChange={(value) => updateField("healthStatus", value)}
             buttons={[
-              { value: 'Healthy', label: 'Healthy' },
-              { value: 'Sick', label: 'Sick' }
+              { value: "Healthy", label: "Healthy" },
+              { value: "Sick", label: "Sick" },
             ]}
             style={styles.input}
           />
 
-          {formData.gender === 'Female' && (
+          {formData.gender === "Female" && (
             <SegmentedButtons
               value={formData.pregnancyStatus}
-              onValueChange={(value) => updateField('pregnancyStatus', value)}
+              onValueChange={(value) => updateField("pregnancyStatus", value)}
               buttons={[
-                { value: 'Not Pregnant', label: 'Not Pregnant' },
-                { value: 'Pregnant', label: 'Pregnant' }
+                { value: "Not Pregnant", label: "Not Pregnant" },
+                { value: "Pregnant", label: "Pregnant" },
               ]}
               style={styles.input}
             />
@@ -187,7 +199,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
           <TextInput
             label="Notes"
             value={formData.notes}
-            onChangeText={(value) => updateField('notes', value)}
+            onChangeText={(value) => updateField("notes", value)}
             mode="outlined"
             multiline
             numberOfLines={4}
@@ -211,6 +223,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
             mode="outlined"
             onPress={() => navigation.goBack()}
             style={styles.button}
+            buttonColor="#e20f1a"
           >
             Cancel
           </Button>
@@ -221,13 +234,23 @@ const EditAnimalScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f3f4f6' },
-  loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f3f4f6' },
+  container: { flex: 1, backgroundColor: "#f3f4f6" },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f3f4f6",
+  },
   scrollView: { flexGrow: 1 },
   content: { padding: 16 },
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24, textAlign: 'center' },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 24,
+    textAlign: "center",
+  },
   input: { marginBottom: 16 },
-  button: { marginTop: 8, paddingVertical: 6 }
+  button: { marginTop: 8, paddingVertical: 6 },
 });
 
 export default EditAnimalScreen;

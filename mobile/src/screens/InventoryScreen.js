@@ -1,4 +1,3 @@
-// src/screens/InventoryScreen.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -146,7 +145,7 @@ const InventoryScreen = ({ navigation }) => {
         <Card style={styles.statCard}>
           <Card.Content>
             <Text style={styles.statLabel}>Total Value</Text>
-            <Text style={styles.statValue}>${totalValue.toFixed(0)}</Text>
+            <Text style={styles.statValue}>KES {totalValue.toFixed(0)}</Text>
           </Card.Content>
         </Card>
       </View>
@@ -259,7 +258,7 @@ const InventoryScreen = ({ navigation }) => {
                     {item.unitPrice && (
                       <View style={styles.detailRow}>
                         <Icon name="currency-usd" size={16} color="#6b7280" />
-                        <Text style={styles.detailText}>${item.unitPrice} per {item.unit}</Text>
+                        <Text style={styles.detailText}>KES {item.unitPrice} per {item.unit}</Text>
                       </View>
                     )}
                     {item.expiryDate && (
