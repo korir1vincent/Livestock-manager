@@ -1,27 +1,21 @@
 // backend/src/controllers/scanController.js
 const Scan = require('../models/Scan');
+const Groq = require('groq-sdk');
+const fs = require('fs');
+const path = require('path');
+
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // @desc    Create new scan
 // @route   POST /api/scan
 // @access  Private
 exports.createScan = async (req, res) => {
   try {
-    const scanData = {
-      ...req.body,
-      userId: req.user._id
-    };
-
+    const scanData = { ...req.body, userId: req.user._id };
     const scan = await Scan.create(scanData);
-
-    res.status(201).json({
-      success: true,
-      scan
-    });
+    res.status(201).json({ success: true, scan });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: error.message
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -34,17 +28,9 @@ exports.getScans = async (req, res) => {
       .populate('animalId', 'name tagId type')
       .sort({ createdAt: -1 })
       .limit(50);
-
-    res.status(200).json({
-      success: true,
-      count: scans.length,
-      scans
-    });
+    res.status(200).json({ success: true, count: scans.length, scans });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -58,22 +44,10 @@ exports.getScan = async (req, res) => {
       userId: req.user._id
     }).populate('animalId', 'name tagId type');
 
-    if (!scan) {
-      return res.status(404).json({
-        success: false,
-        message: 'Scan not found'
-      });
-    }
-
-    res.status(200).json({
-      success: true,
-      scan
-    });
+    if (!scan) return res.status(404).json({ success: false, message: 'Scan not found' });
+    res.status(200).json({ success: true, scan });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -82,96 +56,114 @@ exports.getScan = async (req, res) => {
 // @access  Private
 exports.deleteScan = async (req, res) => {
   try {
-    const scan = await Scan.findOne({
-      _id: req.params.id,
-      userId: req.user._id
-    });
-
-    if (!scan) {
-      return res.status(404).json({
-        success: false,
-        message: 'Scan not found'
-      });
-    }
-
+    const scan = await Scan.findOne({ _id: req.params.id, userId: req.user._id });
+    if (!scan) return res.status(404).json({ success: false, message: 'Scan not found' });
     await scan.deleteOne();
-
-    res.status(200).json({
-      success: true,
-      message: 'Scan deleted successfully'
-    });
+    res.status(200).json({ success: true, message: 'Scan deleted successfully' });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// @desc    Analyze image (mock AI analysis)
+// @desc    Analyze image with Groq Vision
 // @route   POST /api/scan/analyze
 // @access  Private
 exports.analyzeImage = async (req, res) => {
   try {
-    // This is a mock response. In production, you would integrate with an actual AI service
-    const mockAnalysis = {
-      livestock: 'Cattle (Holstein Cow)',
-      confidence: 0.87,
-      healthStatus: 'Moderate Concern',
-      condition: 'Possible Respiratory Infection',
-      symptoms: [
-        'Nasal discharge observed',
-        'Slightly elevated temperature indicators',
-        'Reduced activity level'
-      ],
-      recommendations: [
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ success: false, message: 'No image provided' });
+    }
+
+    // Read image and convert to base64
+    const imageData = fs.readFileSync(file.path);
+    const base64Image = imageData.toString('base64');
+    const mimeType = file.mimetype;
+
+    // Clean up uploaded file
+    fs.unlinkSync(file.path);
+
+    const prompt = `You are an expert veterinarian AI assistant specializing in livestock health analysis.
+
+Analyze this image of livestock and provide a detailed health assessment. Return your response as a valid JSON object with exactly this structure:
+
+{
+  "livestock": "species and breed if identifiable",
+  "confidence": 0.0 to 1.0,
+  "healthStatus": "Healthy" or "Moderate Concern" or "Critical",
+  "condition": "primary condition or diagnosis",
+  "severity": "Low" or "Medium" or "High",
+  "vetConsultRequired": true or false,
+  "symptoms": ["symptom 1", "symptom 2", "symptom 3"],
+  "recommendations": [
+    {
+      "type": "Immediate Action",
+      "items": ["action 1", "action 2"]
+    },
+    {
+      "type": "Medication",
+      "items": ["medication 1", "medication 2"]
+    },
+    {
+      "type": "Nutrition",
+      "items": ["nutrition tip 1", "nutrition tip 2"]
+    },
+    {
+      "type": "Monitoring",
+      "items": ["monitoring tip 1", "monitoring tip 2"]
+    }
+  ]
+}
+
+If the image does not show livestock, set healthStatus to "Unable to Analyze" and condition to "No livestock detected in image". Only return the JSON object, no other text.`;
+
+    const response = await groq.chat.completions.create({
+      model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+      messages: [
         {
-          type: 'Immediate Action',
-          items: [
-            'Isolate animal from herd',
-            'Monitor temperature twice daily',
-            'Ensure adequate hydration'
-          ]
-        },
-        {
-          type: 'Medication',
-          items: [
-            'Oxytetracycline 20mg/kg - Administer intramuscularly once daily for 3-5 days',
-            'Flunixin Meglumine 2.2mg/kg - For fever and inflammation',
-            'Vitamin B Complex - Support immune system'
-          ]
-        },
-        {
-          type: 'Nutrition',
-          items: [
-            'High-quality hay',
-            'Fresh water ad libitum',
-            'Electrolyte supplements',
-            'Reduce grain temporarily'
-          ]
-        },
-        {
-          type: 'Monitoring',
-          items: [
-            'Check temperature morning and evening',
-            'Observe eating and drinking habits',
-            'Monitor breathing rate',
-            'Document any changes'
+          role: 'user',
+          content: [
+            { type: 'text', text: prompt },
+            {
+              type: 'image_url',
+              image_url: {
+                url: `data:${mimeType};base64,${base64Image}`
+              }
+            }
           ]
         }
       ],
-      vetConsultRequired: true,
-      severity: 'Medium'
-    };
+      temperature: 0.1,
+      max_tokens: 1024
+    });
 
-    res.status(200).json({
-      success: true,
-      analysis: mockAnalysis
-    });
+    const responseText = response.choices[0]?.message?.content?.trim();
+
+    if (!responseText) {
+      return res.status(500).json({ success: false, message: 'No response from AI' });
+    }
+
+    // Clean markdown code blocks if present
+    const cleanJson = responseText
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
+    let analysis;
+    try {
+      analysis = JSON.parse(cleanJson);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      console.error('Raw response:', responseText);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to parse AI response'
+      });
+    }
+
+    res.status(200).json({ success: true, analysis });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
+    console.error('Groq analysis error:', error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };

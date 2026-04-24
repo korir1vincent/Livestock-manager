@@ -151,17 +151,17 @@ const HelpCenterScreen = () => {
             <Title>Other Ways to Reach Us</Title>
             <TouchableOpacity
               style={styles.contactRow}
-              onPress={() => Linking.openURL("mailto:support@mifugo.app")}
+              onPress={() => Linking.openURL("mailto:korirv09@gmail.com")}
             >
               <Icon name="email" size={22} color="#3b82f6" />
-              <Text style={styles.contactText}>support@mifugo.app</Text>
+              <Text style={styles.contactText}>korirv09@gmail.com</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.contactRow}
-              onPress={() => Linking.openURL("tel:+254700000000")}
+              onPress={() => Linking.openURL("tel:+254790326063")}
             >
               <Icon name="phone" size={22} color="#16a34a" />
-              <Text style={styles.contactText}>+254 700 000 000</Text>
+              <Text style={styles.contactText}>+254 790 326 063</Text>
             </TouchableOpacity>
           </Card.Content>
         </Card>
