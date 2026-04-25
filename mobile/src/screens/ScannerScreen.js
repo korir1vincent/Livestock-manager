@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native-paper";
 import * as ImagePicker from "expo-image-picker";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;

@@ -11,7 +11,7 @@ import {
   StatusBar,
 } from "react-native";
 import { TextInput, Text, ActivityIndicator } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { useAuth } from "../context/AuthContext";

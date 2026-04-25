@@ -4,7 +4,7 @@ import { View, StyleSheet, Animated, Dimensions } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-export default function SplashScreen() {
+export default function SplashScreen({ onFinish }) {
   const fade = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.8)).current;
   const glow = useRef(new Animated.Value(0)).current;
@@ -73,7 +73,7 @@ export default function SplashScreen() {
         
         {/* 🔥 YOUR LOGO IMAGE HERE */}
         <Animated.Image
-          source={require("../../assets/icon-backup.jpeg")} // <-- adjust if needed
+          source={require("../../assets/adaptive-icon.png")} // <-- adjust if needed
           style={[
             styles.logoImage,
             {

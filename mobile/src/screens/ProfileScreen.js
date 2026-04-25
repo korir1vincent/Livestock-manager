@@ -2,7 +2,6 @@
 // import React, { useState } from 'react';
 // import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 // import { Card, Title, Text, Button, List, Avatar, Divider } from 'react-native-paper';
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import { useAuth } from '../context/AuthContext';
 
 // const ProfileScreen = ({ navigation }) => {
@@ -243,7 +242,7 @@ import {
   Avatar,
   Divider,
 } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 
 const ProfileScreen = ({ navigation }) => {

@@ -4,23 +4,21 @@
     "slug": "livestock-management",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.jpeg",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.jpeg",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#16a34a"
     },
-    "assetBundlePatterns": [
-      "*/"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yourcompany.livestockcare"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon-backup.jpeg",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#16a34a"
       },
       "package": "com.yourcompany.livestockcare",
@@ -28,11 +26,13 @@
         "android.permission.CAMERA",
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
       ]
     },
     "web": {
-      "favicon": "./assets/icon-backup.jpeg"
+      "favicon": "./assets/adaptive-icon.png"
     },
     "plugins": [
       [
@@ -41,7 +41,14 @@
           "photosPermission": "The app needs access to your photos to scan livestock.",
           "cameraPermission": "The app needs access to your camera to scan livestock."
         }
-      ]
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow LivestockCare to use your location for weather updates."
+        }
+      ],
+      "expo-font"
     ],
     "extra": {
       "eas": {

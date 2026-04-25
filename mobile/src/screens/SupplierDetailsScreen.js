@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Linking, ScrollView } from "react-native";
 import { Card, Button, Avatar, Divider } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const SupplierDetailsScreen = ({ route }) => {

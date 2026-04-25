@@ -5,7 +5,7 @@ import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { scheduleReminderNotification } from '../utils/notifications';
+// import { scheduleReminderNotification } from '../utils/notifications';
 
 const AddReminderScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({
@@ -51,15 +51,15 @@ const AddReminderScreen = ({ navigation }) => {
       const response = await api.post('/reminders', formData);
 
       // Schedule local notification for the reminder date
-      const reminder = response.data.reminder;
-      if (reminder) {
-        await scheduleReminderNotification({
-          id: reminder._id,
-          description: formData.description,
-          type: formData.type,
-          date: formData.date
-        });
-      }
+      // const reminder = response.data.reminder;
+      // if (reminder) {
+      //   await scheduleReminderNotification({
+      //     id: reminder._id,
+      //     description: formData.description,
+      //     type: formData.type,
+      //     date: formData.date
+      //   });
+      // }
 
       navigation.goBack();
     } catch (err) {

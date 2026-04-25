@@ -5,10 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Provider as PaperProvider } from "react-native-paper";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { AuthProvider, useAuth } from "./src/context/AuthContext";
-import { requestNotificationPermissions } from "./src/utils/notifications";
-import * as Notifications from "expo-notifications";
 
 // Screens
 import LoginScreen from "./src/screens/LoginScreen";
@@ -44,12 +42,10 @@ import HelpCenterScreen from "./src/screens/HelpCenterScreen";
 import PrivacyTermsScreen from "./src/screens/PrivacyTermsScreen";
 import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 
-// Navigators
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SplashStack = createNativeStackNavigator();
 
-/* -------------------- SPLASH WRAPPER -------------------- */
 function SplashStackScreen({ onFinish }) {
   return (
     <SplashStack.Navigator screenOptions={{ headerShown: false }}>
@@ -60,34 +56,20 @@ function SplashStackScreen({ onFinish }) {
   );
 }
 
-/* -------------------- TABS -------------------- */
 function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-
           switch (route.name) {
-            case "Home":
-              iconName = "home";
-              break;
-            case "Animals":
-              iconName = "cow";
-              break;
-            case "Scanner":
-              iconName = "camera";
-              break;
-            case "Reminders":
-              iconName = "bell";
-              break;
-            case "Profile":
-              iconName = "account";
-              break;
-            default:
-              iconName = "circle";
+            case "Home": iconName = "home"; break;
+            case "Animals": iconName = "cow"; break;
+            case "Scanner": iconName = "camera"; break;
+            case "Reminders": iconName = "bell"; break;
+            case "Profile": iconName = "account"; break;
+            default: iconName = "circle";
           }
-
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#16a34a",
@@ -104,7 +86,6 @@ function MainTabs() {
   );
 }
 
-/* -------------------- AUTH STACK -------------------- */
 function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -115,16 +96,10 @@ function AuthStack() {
   );
 }
 
-/* -------------------- MAIN APP STACK -------------------- */
 function AppStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="MainTabs"
-        component={MainTabs}
-        options={{ headerShown: false }}
-      />
-
+      <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
       <Stack.Screen name="AddAnimal" component={AddAnimalScreen} />
       <Stack.Screen name="AnimalDetail" component={AnimalDetailScreen} />
       <Stack.Screen name="AddReminder" component={AddReminderScreen} />
@@ -136,99 +111,44 @@ function AppStack() {
       <Stack.Screen name="Vet" component={VetScreen} />
       <Stack.Screen name="EditAnimal" component={EditAnimalScreen} />
       <Stack.Screen name="AddHealthRecord" component={AddHealthRecordScreen} />
-      <Stack.Screen
-        name="BookConsultation"
-        component={BookConsultationScreen}
-      />
+      <Stack.Screen name="BookConsultation" component={BookConsultationScreen} />
       <Stack.Screen name="VetApplication" component={VetApplicationScreen} />
       <Stack.Screen name="VetDashboard" component={VetDashboardScreen} />
-      <Stack.Screen name="Chat" component={ChatScreen} />
-      <Stack.Screen
-        name="AdminVetApprovals"
-        component={AdminVetApprovalsScreen}
-      />
+      <Stack.Screen name="Chat" component={ChatScreen} options={{ title: "Consultation Chat" }} />
+      <Stack.Screen name="AdminVetApprovals" component={AdminVetApprovalsScreen} />
       <Stack.Screen name="SupplierDetails" component={SupplierDetailsScreen} />
-      <Stack.Screen
-        name="EditProfile"
-        component={EditProfileScreen}
-        options={{ title: "Edit Profile" }}
-      />
-      <Stack.Screen
-        name="NotificationsSettings"
-        component={NotificationsSettingsScreen}
-        options={{ title: "Notifications" }}
-      />
-      <Stack.Screen
-        name="LanguageSettings"
-        component={LanguageSettingsScreen}
-        options={{ title: "Language" }}
-      />
-      <Stack.Screen
-        name="DataStorage"
-        component={DataStorageScreen}
-        options={{ title: "Data & Storage" }}
-      />
-      <Stack.Screen
-        name="HelpCenter"
-        component={HelpCenterScreen}
-        options={{ title: "Help Center" }}
-      />
-      <Stack.Screen
-        name="PrivacyTerms"
-        component={PrivacyTermsScreen}
-        options={{ title: "Legal" }}
-      />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: "Edit Profile" }} />
+      <Stack.Screen name="NotificationsSettings" component={NotificationsSettingsScreen} options={{ title: "Notifications" }} />
+      <Stack.Screen name="LanguageSettings" component={LanguageSettingsScreen} options={{ title: "Language" }} />
+      <Stack.Screen name="DataStorage" component={DataStorageScreen} options={{ title: "Data & Storage" }} />
+      <Stack.Screen name="HelpCenter" component={HelpCenterScreen} options={{ title: "Help Center" }} />
+      <Stack.Screen name="PrivacyTerms" component={PrivacyTermsScreen} options={{ title: "Legal" }} />
     </Stack.Navigator>
   );
 }
 
-/* -------------------- ROOT NAV -------------------- */
 function RootNavigator() {
   const { isAuthenticated, loading } = useAuth();
-
   if (loading) return null;
-
   return isAuthenticated ? <AppStack /> : <AuthStack />;
 }
 
-/* -------------------- APP ENTRY -------------------- */
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
-  useEffect(() => {
-    // Request permissions on app start
-    requestNotificationPermissions();
-
-    // Handle notification tap when app is backgrounded
-    const subscription = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.log("Notification tapped:", response);
-      },
-    );
-
-    return () => subscription.remove();
-  }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 6000); // splash duration
-
+    const timer = setTimeout(() => setShowSplash(false), 6000);
     return () => clearTimeout(timer);
   }, []);
-
-  const handleSplashFinish = () => {
-    setShowSplash(false);
-  };
 
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <PaperProvider>
           <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-
           <NavigationContainer>
             {showSplash ? (
-              <SplashStackScreen onFinish={handleSplashFinish} />
+              <SplashStackScreen onFinish={() => setShowSplash(false)} />
             ) : (
               <RootNavigator />
             )}

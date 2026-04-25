@@ -16,7 +16,7 @@ import {
   Chip,
   FAB,
 } from "react-native-paper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 
 const InventoryScreen = ({ navigation }) => {
