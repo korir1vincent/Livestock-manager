@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Provider as PaperProvider } from "react-native-paper";
+import { Provider as PaperProvider, MD3LightTheme } from "react-native-paper";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
@@ -45,6 +45,25 @@ import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const SplashStack = createNativeStackNavigator();
+
+// Explicit theme to fix washed out colors in production builds
+const theme = {
+  ...MD3LightTheme,
+  colors: {
+    ...MD3LightTheme.colors,
+    primary: "#16a34a",
+    onPrimary: "#ffffff",
+    secondary: "#3b82f6",
+    onSecondary: "#ffffff",
+    background: "#f3f4f6",
+    onBackground: "#1f2937",
+    surface: "#ffffff",
+    onSurface: "#1f2937",
+    onSurfaceVariant: "#374151",
+    outline: "#d1d5db",
+    error: "#ef4444",
+  },
+};
 
 function SplashStackScreen({ onFinish }) {
   return (
@@ -144,7 +163,7 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <StatusBar barStyle="dark-content" backgroundColor="#fff" />
           <NavigationContainer>
             {showSplash ? (

@@ -50,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
         <View style={styles.card}>
           {/* <Text style={styles.logo}>🌿</Text> */}
 
-          <Title style={styles.title}>Welcome Back</Title>
+          <Title style={styles.title}>Welcome</Title>
           <Text style={styles.subtitle}>Sign in to continue</Text>
 
           <TextInput
@@ -87,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
             buttonColor="#16a34a"
             labelStyle={styles.buttonText}
           >
-            Sign In
+            Login
           </Button>
 
           <Button
@@ -102,7 +102,7 @@ const LoginScreen = ({ navigation }) => {
             mode="text"
             onPress={() => navigation.navigate("ForgotPassword")}
             style={styles.linkButton}
-            labelStyle={styles.linkText}
+            labelStyle={styles.forgotText}
           >
             Forgot Password?
           </Button>
@@ -115,7 +115,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0fdf4",
+    backgroundColor: "#5355da",
   },
   scrollView: {
     flexGrow: 1,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   card: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#bfc4ee",
     padding: 28,
     borderRadius: 20,
     shadowColor: "#000",
@@ -137,12 +137,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 6,
-  },
+  // In LoginScreen.js
+title: {
+  fontSize: 30,
+  fontWeight: "bold",
+  textAlign: "center",
+  marginBottom: 15,
+  color: "#1f2937", 
+},
   subtitle: {
     fontSize: 16,
     textAlign: "center",
@@ -168,6 +170,10 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: 14,
     color: "#16a34a",
+  },
+  forgotText: {
+    fontSize: 14,
+    color: "#d4220a",
   },
 });
 

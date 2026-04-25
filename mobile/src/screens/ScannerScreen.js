@@ -11,6 +11,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -255,6 +256,7 @@ const ScannerScreen = ({ navigation }) => {
   return (
     <View style={styles.wrapper}>
       {/* Tab Bar */}
+      <SafeAreaView>
       <View style={styles.tabBar}>
         <TouchableOpacity
           style={[styles.tab, activeTab === "scanner" && styles.activeTab]}
@@ -275,6 +277,7 @@ const ScannerScreen = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       </View>
+      </SafeAreaView>
 
       {/* Scanner Tab */}
       {activeTab === "scanner" && (

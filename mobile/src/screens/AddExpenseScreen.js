@@ -65,12 +65,13 @@ const AddExpenseScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+    
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <SafeAreaView>
         <View style={styles.content}>
           <Title style={styles.title}>Add Expense</Title>
 
@@ -114,7 +115,7 @@ const AddExpenseScreen = ({ navigation }) => {
             mode="outlined"
             keyboardType="numeric"
             placeholder="0.00"
-            left={<TextInput.Affix text="$" />}
+            left={<TextInput.Affix text="KES" />}
             style={styles.input}
           />
 
@@ -187,14 +188,15 @@ const AddExpenseScreen = ({ navigation }) => {
             mode="outlined"
             onPress={() => navigation.goBack()}
             style={styles.button}
-            buttonColor="#e20f1a"
+            
           >
             Cancel
           </Button>
         </View>
+        </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
-    </SafeAreaView>
+    
   );
 };
 

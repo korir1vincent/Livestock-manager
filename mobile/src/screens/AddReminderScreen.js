@@ -188,7 +188,7 @@ const AddReminderScreen = ({ navigation }) => {
             mode="outlined"
             onPress={() => navigation.goBack()}
             style={styles.button}
-            buttonColor="#e20f1a"
+            
           >
             Cancel
           </Button>

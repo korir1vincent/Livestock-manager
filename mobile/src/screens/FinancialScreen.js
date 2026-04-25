@@ -112,7 +112,7 @@ const FinancialScreen = ({ navigation }) => {
                   <Icon name="arrow-down" size={24} color="#ef4444" />
                   <Text style={styles.statLabel}>Total Expenses</Text>
                   <Text style={[styles.statValue, styles.expenseValue]}>
-                    ${summary.totalExpenses.toFixed(2)}
+                    KES {summary.totalExpenses.toFixed(2)}
                   </Text>
                 </Card.Content>
               </Card>
@@ -122,7 +122,7 @@ const FinancialScreen = ({ navigation }) => {
                   <Icon name="arrow-up" size={24} color="#10b981" />
                   <Text style={styles.statLabel}>Total Revenue</Text>
                   <Text style={[styles.statValue, styles.revenueValue]}>
-                    ${summary.totalRevenue.toFixed(2)}
+                    KES {summary.totalRevenue.toFixed(2)}
                   </Text>
                 </Card.Content>
               </Card>
@@ -285,6 +285,7 @@ const FinancialScreen = ({ navigation }) => {
           </View>
         )}
       </ScrollView>
+      
       <SafeAreaView>
         <FAB
         icon="file-chart"

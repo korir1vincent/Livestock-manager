@@ -4,7 +4,8 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL;
+const API_URL =
+  process.env.EXPO_PUBLIC_API_URL || "https://mifugo-app.onrender.com/api";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

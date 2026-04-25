@@ -49,7 +49,7 @@ const RegisterScreen = ({ navigation }) => {
           
           {/* <Text style={styles.logo}></Text> */}
 
-          <Title style={styles.title}>Create Account</Title>
+          <Title style={styles.title}>Sign Up</Title>
           <Text style={styles.subtitle}>Join and manage your farm easily</Text>
 
           <TextInput
