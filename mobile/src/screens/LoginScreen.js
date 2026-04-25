@@ -115,7 +115,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#5355da",
+    backgroundColor: "#f0fdf4",
   },
   scrollView: {
     flexGrow: 1,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   card: {
-    backgroundColor: "#bfc4ee",
+    backgroundColor: "#ffffff",
     padding: 28,
     borderRadius: 20,
     shadowColor: "#000",
