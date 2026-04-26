@@ -15,12 +15,58 @@ import * as Location from "expo-location";
 
 const WEATHER_API_KEY = "9f3a28609c7627d64f929d1b0e70c7d5";
 
+const healthTips = [
+  {
+    title: "Regular Deworming",
+    tip: "Deworm your livestock every 3-4 months to prevent internal parasites that reduce productivity and cause weight loss."
+  },
+  {
+    title: "Clean Water Access",
+    tip: "Ensure all animals have access to clean, fresh water at all times. Dehydration reduces milk production by up to 25%."
+  },
+  {
+    title: "Vaccination Schedule",
+    tip: "Keep up with vaccination schedules. FMD, Brucellosis, and Blackleg vaccines are critical for cattle health."
+  },
+  {
+    title: "Body Condition Scoring",
+    tip: "Check your animals' body condition score monthly. A score of 3.0-3.5 is ideal for most livestock breeds."
+  },
+  {
+    title: "Hoof Care",
+    tip: "Trim hooves every 3-6 months to prevent lameness. Lame animals eat less and produce less milk or meat."
+  },
+  {
+    title: "Isolate Sick Animals",
+    tip: "Always isolate sick animals immediately to prevent disease spread. A sick animal can infect an entire herd within days."
+  },
+  {
+    title: "Balanced Nutrition",
+    tip: "Supplement grazing with mineral blocks especially during dry seasons. Mineral deficiencies cause reproductive failures."
+  },
+  {
+    title: "Observe Daily",
+    tip: "Spend 10-15 minutes daily observing your herd. Early detection of illness saves lives and reduces treatment costs."
+  },
+  {
+    title: "Proper Ventilation",
+    tip: "Ensure animal shelters are well ventilated. Poor ventilation causes respiratory diseases especially in young animals."
+  },
+  {
+    title: "Record Keeping",
+    tip: "Keep detailed health records for each animal. Records help identify patterns and improve herd management decisions."
+  }
+];
+
 const DashboardScreen = ({ navigation }) => {
   const [stats, setStats] = useState(null);
   const [reminders, setReminders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [weather, setWeather] = useState(null);
+  const [currentTip, setCurrentTip] = useState(
+    Math.floor(Math.random() * healthTips.length)
+  );
   const { getAuthenticatedAxios, user } = useAuth();
 
   useEffect(() => {
@@ -59,13 +105,11 @@ const DashboardScreen = ({ navigation }) => {
 
       const data = await res.json();
 
-      // 🔴 HANDLE API ERROR HERE
       if (data.cod !== 200) {
         console.log("Weather API error:", data.message);
         return;
       }
 
-      // ✅ SAFE TO USE DATA NOW
       setWeather({
         temp: Math.round(data.main.temp),
         description: data.weather[0].description
@@ -83,25 +127,21 @@ const DashboardScreen = ({ navigation }) => {
 
   const getWeatherIcon = (icon) => {
     switch (icon) {
-      case "Clear":
-        return "weather-sunny";
-      case "Clouds":
-        return "weather-cloudy";
-      case "Rain":
-        return "weather-rainy";
-      case "Drizzle":
-        return "weather-partly-rainy";
-      case "Thunderstorm":
-        return "weather-lightning-rainy";
-      case "Snow":
-        return "weather-snowy";
+      case "Clear": return "weather-sunny";
+      case "Clouds": return "weather-cloudy";
+      case "Rain": return "weather-rainy";
+      case "Drizzle": return "weather-partly-rainy";
+      case "Thunderstorm": return "weather-lightning-rainy";
+      case "Snow": return "weather-snowy";
       case "Mist":
       case "Fog":
-      case "Haze":
-        return "weather-fog";
-      default:
-        return "weather-cloudy";
+      case "Haze": return "weather-fog";
+      default: return "weather-cloudy";
     }
+  };
+
+  const nextTip = () => {
+    setCurrentTip((prev) => (prev + 1) % healthTips.length);
   };
 
   const onRefresh = () => {
@@ -322,21 +362,21 @@ const DashboardScreen = ({ navigation }) => {
         </Card>
       </View>
 
-      {/* Health Alerts */}
+      {/* Daily Health Tip */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Health Alerts</Text>
-        <View style={styles.alertCard}>
-          <View style={styles.alertHeader}>
-            <Icon name="alert-circle" size={20} color="#ef4444" />
-            <Text style={styles.alertTitle}>
-              Charlie (G-001) - Respiratory Issue
+        <Text style={styles.sectionTitle}>Daily Health Tip</Text>
+        <View style={styles.tipCard}>
+          <View style={styles.tipHeader}>
+            <Icon name="lightbulb-on" size={20} color="#16a34a" />
+            <Text style={styles.tipTitle}>
+              {healthTips[currentTip].title}
             </Text>
           </View>
-          <Text style={styles.alertDesc}>
-            Showing signs of infection. Treatment started.
+          <Text style={styles.tipDesc}>
+            {healthTips[currentTip].tip}
           </Text>
-          <TouchableOpacity>
-            <Text style={styles.alertLink}>View Details →</Text>
+          <TouchableOpacity onPress={nextTip}>
+            <Text style={styles.nextTipLink}>Next Tip →</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -454,23 +494,36 @@ const styles = StyleSheet.create({
   },
   markDoneText: { color: "#fff", fontSize: 12, fontWeight: "600" },
   emptyText: { textAlign: "center", color: "#9ca3af", paddingVertical: 24 },
-  alertCard: {
-    backgroundColor: "#fef2f2",
+  tipCard: {
+    backgroundColor: "#f0fdf4",
     borderWidth: 1,
-    borderColor: "#fecaca",
+    borderColor: "#bbf7d0",
     borderRadius: 12,
     padding: 16,
   },
-  alertHeader: { flexDirection: "row", alignItems: "center", marginBottom: 8 },
-  alertTitle: {
+  tipHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+    gap: 8,
+  },
+  tipTitle: {
     fontSize: 15,
     fontWeight: "600",
-    color: "#991b1b",
-    marginLeft: 8,
+    color: "#15803d",
     flex: 1,
   },
-  alertDesc: { fontSize: 13, color: "#b91c1c", marginBottom: 8 },
-  alertLink: { fontSize: 13, color: "#dc2626", fontWeight: "600" },
+  tipDesc: {
+    fontSize: 13,
+    color: "#166534",
+    marginBottom: 10,
+    lineHeight: 20,
+  },
+  nextTipLink: {
+    fontSize: 13,
+    color: "#16a34a",
+    fontWeight: "600",
+  },
 });
 
 export default DashboardScreen;

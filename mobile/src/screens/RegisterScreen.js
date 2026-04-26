@@ -47,9 +47,9 @@ const RegisterScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.card}>
           
-          {/* <Text style={styles.logo}></Text> */}
+          <Text style={styles.logo}>👤</Text>
 
-          <Title style={styles.title}>Sign Up</Title>
+          <Text style={styles.title}>Sign Up</Text>
           <Text style={styles.subtitle}>Join and manage your farm easily</Text>
 
           <TextInput

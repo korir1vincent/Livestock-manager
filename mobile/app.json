@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "LivestockCare",
-    "slug": "livestock-management",
+    "slug": "mifugo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#16a34a"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.yourcompany.livestockcare"
@@ -52,9 +54,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "c7464813-ef8a-4306-b699-cb3ea1d5448a"
+        "projectId": "35a0f161-6156-4600-a06d-378370255b0e"
       }
     },
-    "owner": "vincentkip"
+    "owner": "kiplangat121"
   }
 }

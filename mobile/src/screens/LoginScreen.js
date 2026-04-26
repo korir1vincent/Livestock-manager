@@ -48,10 +48,9 @@ const LoginScreen = ({ navigation }) => {
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.card}>
-          {/* <Text style={styles.logo}>🌿</Text> */}
-
-          <Title style={styles.title}>Welcome</Title>
-          <Text style={styles.subtitle}>Sign in to continue</Text>
+<Text style={styles.logo}>👤</Text>
+          <Text style={styles.title}>Sign In</Text>
+          {/* <Text style={styles.subtitle}>Sign in to continue</Text> */}
 
           <TextInput
             label="Email"
@@ -173,7 +172,7 @@ title: {
   },
   forgotText: {
     fontSize: 14,
-    color: "#d4220a",
+    color: "#f55f4b",
   },
 });
 
