@@ -1,4 +1,3 @@
-// backend/src/models/Animal.js
 const mongoose = require('mongoose');
 
 const healthRecordSchema = new mongoose.Schema({

@@ -1,4 +1,3 @@
-// backend/src/models/Revenue.js
 const mongoose = require('mongoose');
 
 const revenueSchema = new mongoose.Schema({

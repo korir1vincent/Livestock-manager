@@ -1,4 +1,3 @@
-// backend/src/controllers/financialController.js
 const Expense = require('../models/Expense');
 const Revenue = require('../models/Revenue');
 

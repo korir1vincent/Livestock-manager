@@ -1,4 +1,3 @@
-// backend/src/controllers/inventoryController.js
 const Inventory = require('../models/Inventory');
 
 // @desc    Get all inventory items

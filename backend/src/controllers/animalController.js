@@ -1,4 +1,3 @@
-// backend/src/controllers/animalController.js
 const Animal = require('../models/Animal');
 
 // @desc    Get all animals for a user

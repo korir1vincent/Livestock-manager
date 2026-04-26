@@ -1,4 +1,3 @@
-// backend/src/models/Consultation.js
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({

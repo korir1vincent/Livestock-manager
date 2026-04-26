@@ -1,11 +1,11 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 // Generate JWT Token
 const signToken = (id) => {
-  return jwt.sign({ userId: id }, process.env.JWT_SECRET, { 
-    expiresIn: process.env.JWT_EXPIRE 
+  return jwt.sign({ userId: id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
   });
 };
 
@@ -15,8 +15,8 @@ const transporter = nodemailer.createTransport({
   port: process.env.EMAIL_PORT,
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 // @desc    Register new user
@@ -29,15 +29,15 @@ exports.register = async (req, res) => {
     if (!name || !email || !password || !farmLocation) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide all required fields'
+        message: "Please provide all required fields",
       });
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'User already exists with this email' 
+      return res.status(400).json({
+        success: false,
+        message: "User already exists with this email",
       });
     }
 
@@ -47,16 +47,16 @@ exports.register = async (req, res) => {
     res.status(201).json({
       success: true,
       token,
-      user: { 
-        id: user._id, 
-        name: user.name, 
-        email: user.email, 
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
         farmLocation: user.farmLocation,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (error) {
-    console.error('Register error:', error);
+    console.error("Register error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -69,20 +69,24 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Please provide email and password' 
+      return res.status(400).json({
+        success: false,
+        message: "Please provide email and password",
       });
     }
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const isPasswordCorrect = await user.comparePassword(password);
     if (!isPasswordCorrect) {
-      return res.status(401).json({ success: false, message: 'Invalid credentials' });
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
     }
 
     const token = signToken(user._id);
@@ -90,16 +94,16 @@ exports.login = async (req, res) => {
     res.status(200).json({
       success: true,
       token,
-      user: { 
-        id: user._id, 
-        name: user.name, 
-        email: user.email, 
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
         farmLocation: user.farmLocation,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -110,19 +114,19 @@ exports.login = async (req, res) => {
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    
-    res.status(200).json({ 
-      success: true, 
+
+    res.status(200).json({
+      success: true,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         farmLocation: user.farmLocation,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (error) {
-    console.error('Get me error:', error);
+    console.error("Get me error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -134,19 +138,26 @@ exports.updateProfile = async (req, res) => {
   try {
     const { name, farmLocation, currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user._id).select('+password');
-    if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+    const user = await User.findById(req.user._id).select("+password");
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
 
     if (name) user.name = name;
     if (farmLocation) user.farmLocation = farmLocation;
 
     if (newPassword) {
       if (!currentPassword) {
-        return res.status(400).json({ success: false, message: 'Current password is required' });
+        return res
+          .status(400)
+          .json({ success: false, message: "Current password is required" });
       }
       const isMatch = await user.comparePassword(currentPassword);
       if (!isMatch) {
-        return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+        return res
+          .status(400)
+          .json({ success: false, message: "Current password is incorrect" });
       }
       user.password = newPassword;
     }
@@ -160,8 +171,8 @@ exports.updateProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         farmLocation: user.farmLocation,
-        role: user.role
-      }
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -174,11 +185,19 @@ exports.updateProfile = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ success: false, message: 'Please provide your email' });
+    if (!email)
+      return res
+        .status(400)
+        .json({ success: false, message: "Please provide your email" });
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(200).json({ success: true, message: 'If that email exists, a reset code has been sent' });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Email does not exist. Please try again",
+        });
     }
 
     const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -191,7 +210,7 @@ exports.forgotPassword = async (req, res) => {
     await transporter.sendMail({
       from: `"Mifugo App" <${process.env.EMAIL_USER}>`,
       to: user.email,
-      subject: 'Your Password Reset Code',
+      subject: "Your Password Reset Code",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 400px; margin: auto; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb;">
           <h2 style="color: #16a34a;">Mifugo Password Reset</h2>
@@ -202,12 +221,14 @@ exports.forgotPassword = async (req, res) => {
           <p style="color: #6b7280;">This code expires in <strong>15 minutes</strong>.</p>
           <p style="color: #6b7280;">If you didn't request this, ignore this email.</p>
         </div>
-      `
+      `,
     });
 
-    res.status(200).json({ success: true, message: 'Reset code sent to your email' });
+    res
+      .status(200)
+      .json({ success: true, message: "Reset code sent to your email" });
   } catch (error) {
-    console.error('Forgot password error:', error);
+    console.error("Forgot password error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -220,21 +241,33 @@ exports.resetPassword = async (req, res) => {
     const { email, code, newPassword } = req.body;
 
     if (!email || !code || !newPassword) {
-      return res.status(400).json({ success: false, message: 'Please provide email, code and new password' });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Please provide email, code and new password",
+        });
     }
 
     const user = await User.findOne({
       email,
       resetPasswordCode: code,
-      resetPasswordExpiry: { $gt: Date.now() }
+      resetPasswordExpiry: { $gt: Date.now() },
     });
 
     if (!user) {
-      return res.status(400).json({ success: false, message: 'Invalid or expired reset code' });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid or expired reset code" });
     }
 
     if (newPassword.length < 6) {
-      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters' });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Password must be at least 6 characters",
+        });
     }
 
     user.password = newPassword;
@@ -242,7 +275,12 @@ exports.resetPassword = async (req, res) => {
     user.resetPasswordExpiry = undefined;
     await user.save();
 
-    res.status(200).json({ success: true, message: 'Password reset successful. You can now log in.' });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Password reset successful. You can now log in.",
+      });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

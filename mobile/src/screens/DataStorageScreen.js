@@ -109,7 +109,11 @@ const DataStorageScreen = () => {
           </Card.Content>
         </Card>
 
-        <Button
+        
+
+        
+      </View>
+      <Button
           mode="contained"
           icon="trash-can"
           onPress={clearAllCache}
@@ -120,12 +124,6 @@ const DataStorageScreen = () => {
         >
           Clear All Cache
         </Button>
-
-        <Text style={styles.note}>
-          Auth data (authToken, user) is protected and cannot be cleared here.
-          Use Logout to remove it.
-        </Text>
-      </View>
     </ScrollView>
   );
 };

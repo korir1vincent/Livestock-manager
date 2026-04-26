@@ -1,4 +1,3 @@
-// backend/src/routes/scanRoutes.js
 const express = require("express");
 const router = express.Router();
 const {

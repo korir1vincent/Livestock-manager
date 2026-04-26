@@ -1,4 +1,3 @@
-// backend/src/controllers/scanController.js
 const Scan = require('../models/Scan');
 const Groq = require('groq-sdk');
 const fs = require('fs');

@@ -1,4 +1,3 @@
-// backend/src/controllers/reminderController.js
 const Reminder = require('../models/Reminder');
 
 // @desc    Get all reminders
