@@ -18,6 +18,7 @@ import {
 } from "react-native-paper";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 const InventoryScreen = ({ navigation }) => {
   const [items, setItems] = useState([]);

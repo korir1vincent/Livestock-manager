@@ -9,6 +9,7 @@ import {
 import { TextInput, Button, Title, HelperText, Text } from "react-native-paper";
 import { useAuth } from "../context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "../context/ThemeContext";
 
 const VetApplicationScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({

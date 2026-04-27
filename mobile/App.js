@@ -7,6 +7,7 @@ import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { AuthProvider, useAuth } from "./src/context/AuthContext";
+import { ThemeProvider, useTheme } from "./src/context/ThemeContext";
 
 // Screens
 import LoginScreen from "./src/screens/LoginScreen";
@@ -82,12 +83,23 @@ function MainTabs() {
         tabBarIcon: ({ color, size }) => {
           let iconName;
           switch (route.name) {
-            case "Home": iconName = "home"; break;
-            case "Animals": iconName = "cow"; break;
-            case "Scanner": iconName = "camera"; break;
-            case "Reminders": iconName = "bell"; break;
-            case "Profile": iconName = "account"; break;
-            default: iconName = "circle";
+            case "Home":
+              iconName = "home";
+              break;
+            case "Animals":
+              iconName = "cow";
+              break;
+            case "Scanner":
+              iconName = "camera";
+              break;
+            case "Reminders":
+              iconName = "bell";
+              break;
+            case "Profile":
+              iconName = "account";
+              break;
+            default:
+              iconName = "circle";
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
@@ -116,9 +128,23 @@ function AuthStack() {
 }
 
 function AppStack() {
+  const { isDarkMode } = useTheme();
+  const headerStyle = {
+    backgroundColor: isDarkMode ? "#1e293b" : "#ffffff",
+  };
+  const headerTintColor = isDarkMode ? "#f1f5f9" : "#1f2937";
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="MainTabs" component={MainTabs} options={{ headerShown: false }} />
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle,
+        headerTintColor,
+      }}
+    >
+      <Stack.Screen
+        name="MainTabs"
+        component={MainTabs}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="AddAnimal" component={AddAnimalScreen} />
       <Stack.Screen name="AnimalDetail" component={AnimalDetailScreen} />
       <Stack.Screen name="AddReminder" component={AddReminderScreen} />
@@ -130,18 +156,52 @@ function AppStack() {
       <Stack.Screen name="Vet" component={VetScreen} />
       <Stack.Screen name="EditAnimal" component={EditAnimalScreen} />
       <Stack.Screen name="AddHealthRecord" component={AddHealthRecordScreen} />
-      <Stack.Screen name="BookConsultation" component={BookConsultationScreen} />
+      <Stack.Screen
+        name="BookConsultation"
+        component={BookConsultationScreen}
+      />
       <Stack.Screen name="VetApplication" component={VetApplicationScreen} />
       <Stack.Screen name="VetDashboard" component={VetDashboardScreen} />
-      <Stack.Screen name="Chat" component={ChatScreen} options={{ title: "Consultation Chat" }} />
-      <Stack.Screen name="AdminVetApprovals" component={AdminVetApprovalsScreen} />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={{ title: "Consultation Chat" }}
+      />
+      <Stack.Screen
+        name="AdminVetApprovals"
+        component={AdminVetApprovalsScreen}
+      />
       <Stack.Screen name="SupplierDetails" component={SupplierDetailsScreen} />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: "Edit Profile" }} />
-      <Stack.Screen name="NotificationsSettings" component={NotificationsSettingsScreen} options={{ title: "Notifications" }} />
-      <Stack.Screen name="LanguageSettings" component={LanguageSettingsScreen} options={{ title: "Language" }} />
-      <Stack.Screen name="DataStorage" component={DataStorageScreen} options={{ title: "Data & Storage" }} />
-      <Stack.Screen name="HelpCenter" component={HelpCenterScreen} options={{ title: "Help Center" }} />
-      <Stack.Screen name="PrivacyTerms" component={PrivacyTermsScreen} options={{ title: "Legal" }} />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
+        options={{ title: "Edit Profile" }}
+      />
+      <Stack.Screen
+        name="NotificationsSettings"
+        component={NotificationsSettingsScreen}
+        options={{ title: "Notifications" }}
+      />
+      <Stack.Screen
+        name="LanguageSettings"
+        component={LanguageSettingsScreen}
+        options={{ title: "Language" }}
+      />
+      <Stack.Screen
+        name="DataStorage"
+        component={DataStorageScreen}
+        options={{ title: "Data & Storage" }}
+      />
+      <Stack.Screen
+        name="HelpCenter"
+        component={HelpCenterScreen}
+        options={{ title: "Help Center" }}
+      />
+      <Stack.Screen
+        name="PrivacyTerms"
+        component={PrivacyTermsScreen}
+        options={{ title: "Legal" }}
+      />
     </Stack.Navigator>
   );
 }
@@ -150,6 +210,31 @@ function RootNavigator() {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return null;
   return isAuthenticated ? <AppStack /> : <AuthStack />;
+}
+function ThemedApp() {
+  const { theme, isDarkMode } = useTheme();
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 6000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <PaperProvider theme={theme}>
+      <StatusBar
+        barStyle={isDarkMode ? "light-content" : "dark-content"}
+        backgroundColor={isDarkMode ? "#0f172a" : "#fff"}
+      />
+      <NavigationContainer>
+        {showSplash ? (
+          <SplashStackScreen onFinish={() => setShowSplash(false)} />
+        ) : (
+          <RootNavigator />
+        )}
+      </NavigationContainer>
+    </PaperProvider>
+  );
 }
 
 export default function App() {
@@ -162,18 +247,22 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        <PaperProvider theme={theme}>
-          <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-          <NavigationContainer>
-            {showSplash ? (
-              <SplashStackScreen onFinish={() => setShowSplash(false)} />
-            ) : (
-              <RootNavigator />
-            )}
-          </NavigationContainer>
-        </PaperProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <ThemedApp />
+
+          {/* <PaperProvider theme={theme}>
+            <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+            <NavigationContainer>
+              {showSplash ? (
+                <SplashStackScreen onFinish={() => setShowSplash(false)} />
+              ) : (
+                <RootNavigator />
+              )}
+            </NavigationContainer>
+          </PaperProvider> */}
+        </AuthProvider>
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }

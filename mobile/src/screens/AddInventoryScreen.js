@@ -4,8 +4,10 @@ import { TextInput, Button, Title, HelperText, SegmentedButtons } from 'react-na
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useAuth } from '../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from "../context/ThemeContext";
 
 const AddInventoryScreen = ({ navigation }) => {
+    const { colors } = useTheme();
   const [formData, setFormData] = useState({
     name: '',
     category: 'Medicine',
@@ -69,7 +71,7 @@ const AddInventoryScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <SafeAreaView>

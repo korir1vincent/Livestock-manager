@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { TextInput, Button, Text, Title, HelperText } from "react-native-paper";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 const LoginScreen = ({ navigation }) => {
   const [formData, setFormData] = useState({

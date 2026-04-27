@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Linking, ScrollView } from "react-native";
 import { Card, Button, Avatar, Divider } from "react-native-paper";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "../context/ThemeContext";
 
 const SupplierDetailsScreen = ({ route }) => {
   const { itemId } = route.params;

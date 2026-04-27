@@ -4,6 +4,7 @@ import { Card, Title, Text, Button, ActivityIndicator, Chip } from 'react-native
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from "../context/ThemeContext";
 
 const AnimalDetailScreen = ({ route, navigation }) => {
   const { animalId } = route.params;

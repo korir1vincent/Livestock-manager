@@ -4,6 +4,7 @@ import { Card, Title, Text, Button, ActivityIndicator, SegmentedButtons, FAB } f
 import { MaterialCommunityIcons as Icon } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from "../context/ThemeContext";
 
 const FinancialScreen = ({ navigation }) => {
   const [expenses, setExpenses] = useState([]);

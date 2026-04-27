@@ -15,6 +15,7 @@ import {
   HelperText,
 } from "react-native-paper";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import { useTheme } from "../context/ThemeContext";
 
 const FAQS = [
   {

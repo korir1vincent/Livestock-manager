@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { TextInput, Button, Title, HelperText, Text } from "react-native-paper";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 const EditProfileScreen = ({ navigation }) => {
   const { user, getAuthenticatedAxios, login } = useAuth();

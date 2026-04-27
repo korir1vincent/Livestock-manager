@@ -18,8 +18,10 @@ import {
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "../context/ThemeContext";
 
 const AnimalsScreen = ({ navigation }) => {
+  const { colors, isDarkMode } = useTheme();
   const [animals, setAnimals] = useState([]);
   const [filteredAnimals, setFilteredAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,14 +31,7 @@ const AnimalsScreen = ({ navigation }) => {
   const [selectedStatus, setSelectedStatus] = useState("All");
   const { getAuthenticatedAxios } = useAuth();
 
-  const animalTypes = [
-    "All",
-    "Cattle",
-    "Goat",
-    "Sheep",
-    "Pig",
-    "Other",
-  ];
+  const animalTypes = ["All", "Cattle", "Goat", "Sheep", "Pig", "Other"];
   const healthStatuses = [
     "All",
     "Healthy",
@@ -137,7 +132,12 @@ const AnimalsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SafeAreaView>
-        <View style={styles.header}>
+        <View
+          style={[
+            styles.header,
+            { backgroundColor: isDarkMode ? "#111827" : "#fff" },
+          ]}
+        >
           <Title style={styles.headerTitle}>Animals</Title>
           <Button
             mode="contained"
@@ -154,7 +154,16 @@ const AnimalsScreen = ({ navigation }) => {
             placeholder="Search by name or tag ID"
             onChangeText={setSearchQuery}
             value={searchQuery}
-            style={styles.searchBar}
+            style={[
+              styles.searchBar,
+              {
+                backgroundColor: isDarkMode ? "#1f2937" : "#f3f4f6",
+              },
+            ]}
+            inputStyle={{
+              color: isDarkMode ? "#fff" : "#111827",
+            }}
+            placeholderTextColor={isDarkMode ? "#9ca3af" : "#6b7280"}
           />
         </View>
 
@@ -163,7 +172,14 @@ const AnimalsScreen = ({ navigation }) => {
           showsHorizontalScrollIndicator={true}
           style={styles.filterSection}
         >
-          <Text style={styles.filterLabel}>Type:</Text>
+          <Text
+            style={[
+              styles.filterLabel,
+              { color: isDarkMode ? "#9ca3af" : "#6b7280" },
+            ]}
+          >
+            Type:
+          </Text>
           {animalTypes.map((type) => (
             <Chip
               key={type}

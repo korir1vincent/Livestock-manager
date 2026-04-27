@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import { Card, Title, Text, Button, List, Divider } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
+import { useTheme } from "../context/ThemeContext";
 
 const DataStorageScreen = () => {
   const [keys, setKeys] = useState([]);

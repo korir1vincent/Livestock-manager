@@ -17,6 +17,7 @@ import {
 } from "react-native-paper";
 import { useAuth } from "../context/AuthContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useTheme } from "../context/ThemeContext";
 
 const BookConsultationScreen = ({ route, navigation }) => {
   const { vetId } = route.params;

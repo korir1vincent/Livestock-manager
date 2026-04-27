@@ -18,6 +18,7 @@ import {
 } from "react-native-paper";
 import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from "../context/ThemeContext";
 
 const RemindersScreen = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
@@ -25,6 +26,7 @@ const RemindersScreen = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [filter, setFilter] = useState("All");
   const { getAuthenticatedAxios } = useAuth();
+  const { isDarkMode, colors } = useTheme();
 
   const reminderTypes = [
     "All",
@@ -98,32 +100,48 @@ const RemindersScreen = ({ navigation }) => {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case "Vaccination": return "needle";
-      case "Checkup": return "stethoscope";
-      case "Medication": return "pill";
-      case "Breeding": return "baby-carriage";
-      case "Deworming": return "bug";
-      default: return "bell";
+      case "Vaccination":
+        return "needle";
+      case "Checkup":
+        return "stethoscope";
+      case "Medication":
+        return "pill";
+      case "Breeding":
+        return "baby-carriage";
+      case "Deworming":
+        return "bug";
+      default:
+        return "bell";
     }
   };
 
   const getTypeColor = (type) => {
     switch (type) {
-      case "Vaccination": return "#3b82f6";
-      case "Checkup": return "#10b981";
-      case "Medication": return "#8b5cf6";
-      case "Breeding": return "#ec4899";
-      case "Deworming": return "#f59e0b";
-      default: return "#6b7280";
+      case "Vaccination":
+        return "#3b82f6";
+      case "Checkup":
+        return "#10b981";
+      case "Medication":
+        return "#8b5cf6";
+      case "Breeding":
+        return "#ec4899";
+      case "Deworming":
+        return "#f59e0b";
+      default:
+        return "#6b7280";
     }
   };
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case "High": return "#ef4444";
-      case "Medium": return "#f59e0b";
-      case "Low": return "#10b981";
-      default: return "#6b7280";
+      case "High":
+        return "#ef4444";
+      case "Medium":
+        return "#f59e0b";
+      case "Low":
+        return "#10b981";
+      default:
+        return "#6b7280";
     }
   };
 
@@ -147,14 +165,28 @@ const RemindersScreen = ({ navigation }) => {
   const completedReminders = filteredReminders.filter((r) => r.completed);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Header */}
-      <View style={styles.header}>
-        <Title style={styles.headerTitle}>Reminders</Title>
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: isDarkMode ? "#111827" : "#fff",
+            borderBottomColor: isDarkMode ? "#1f2937" : "#e5e7eb",
+          },
+        ]}
+      >
+        <Title style={{ color: isDarkMode ? "#fff" : "#111827" }}>
+          Reminders
+        </Title>
         <View style={styles.stats}>
-          <Text style={styles.statsText}>{upcomingReminders.length} upcoming</Text>
+          <Text style={{ color: isDarkMode ? "#9ca3af" : "#6b7280" }}>
+            {upcomingReminders.length} upcoming
+          </Text>
           {overdueReminders.length > 0 && (
-            <Text style={styles.overdueText}>{overdueReminders.length} overdue</Text>
+            <Text style={{ color: "#ef4444" }}>
+              {overdueReminders.length} overdue
+            </Text>
           )}
         </View>
       </View>
@@ -163,7 +195,13 @@ const RemindersScreen = ({ navigation }) => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={styles.filterSection}
+        style={[
+          styles.filterSection,
+          {
+            backgroundColor: isDarkMode ? "#111827" : "#fff",
+            borderBottomColor: isDarkMode ? "#1f2937" : "#e5e7eb",
+          },
+        ]}
         contentContainerStyle={styles.filterContent}
       >
         {reminderTypes.map((type) => (
@@ -187,20 +225,64 @@ const RemindersScreen = ({ navigation }) => {
       >
         {overdueReminders.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Overdue</Text>
+            <Text
+              style={[
+                styles.sectionTitle,
+                { color: isDarkMode ? "#fff" : "#111827" },
+              ]}
+            >
+              Overdue
+            </Text>
             {overdueReminders.map((reminder) => (
-              <Card key={reminder._id} style={[styles.reminderCard, styles.overdueCard]}>
+              <Card
+                key={reminder._id}
+                style={[
+                  styles.reminderCard,
+                  {
+                    backgroundColor: isDarkMode ? "#1f2937" : "#fff",
+                  },
+                ]}
+              >
                 <Card.Content>
                   <View style={styles.reminderHeader}>
-                    <View style={[styles.iconContainer, { backgroundColor: `${getTypeColor(reminder.type)}20` }]}>
-                      <Icon name={getTypeIcon(reminder.type)} size={24} color={getTypeColor(reminder.type)} />
+                    <View
+                      style={[
+                        styles.iconContainer,
+                        { backgroundColor: `${getTypeColor(reminder.type)}20` },
+                      ]}
+                    >
+                      <Icon
+                        name={getTypeIcon(reminder.type)}
+                        size={24}
+                        color={getTypeColor(reminder.type)}
+                      />
                     </View>
                     <View style={styles.reminderInfo}>
-                      <Text style={styles.reminderType}>{reminder.type}</Text>
-                      <Text style={styles.reminderDescription}>{reminder.description}</Text>
+                      <Text
+                        style={[
+                          styles.reminderType,
+                          { color: isDarkMode ? "#b1aeae" : "#111827" },
+                        ]}
+                      >
+                        {reminder.type}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.reminderDescription,
+                          { color: isDarkMode ? "#b1aeae" : "#111827" },
+                        ]}
+                      >
+                        {reminder.description}
+                      </Text>
                       {reminder.animalId && (
-                        <Text style={styles.animalName}>
-                          Animal: {reminder.animalId.name} ({reminder.animalId.tagId})
+                        <Text
+                          style={[
+                            styles.sectionTitle,
+                            { color: isDarkMode ? "#b1aeae" : "#111827" },
+                          ]}
+                        >
+                          Animal: {reminder.animalId.name} (
+                          {reminder.animalId.tagId})
                         </Text>
                       )}
                     </View>
@@ -213,10 +295,16 @@ const RemindersScreen = ({ navigation }) => {
                       </Text>
                     </View>
                     <View style={styles.actions}>
-                      <TouchableOpacity onPress={() => completeReminder(reminder._id)} style={styles.actionButton}>
+                      <TouchableOpacity
+                        onPress={() => completeReminder(reminder._id)}
+                        style={styles.actionButton}
+                      >
                         <Icon name="check" size={20} color="#10b981" />
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => deleteReminder(reminder._id)} style={styles.actionButton}>
+                      <TouchableOpacity
+                        onPress={() => deleteReminder(reminder._id)}
+                        style={styles.actionButton}
+                      >
                         <Icon name="delete" size={20} color="#ef4444" />
                       </TouchableOpacity>
                     </View>
@@ -229,27 +317,77 @@ const RemindersScreen = ({ navigation }) => {
 
         {upcomingReminders.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Upcoming</Text>
+            <Text
+              style={[
+                styles.sectionTitle,
+                { color: isDarkMode ? "#fff" : "#111827" },
+              ]}
+            >
+              Upcoming
+            </Text>
             {upcomingReminders.map((reminder) => (
-              <Card key={reminder._id} style={styles.reminderCard}>
+              <Card
+                key={reminder._id}
+                style={[
+                  styles.reminderCard,
+                  {
+                    backgroundColor: isDarkMode ? "#1f2937" : "#fff",
+                  },
+                ]}
+              >
                 <Card.Content>
                   <View style={styles.reminderHeader}>
-                    <View style={[styles.iconContainer, { backgroundColor: `${getTypeColor(reminder.type)}20` }]}>
-                      <Icon name={getTypeIcon(reminder.type)} size={24} color={getTypeColor(reminder.type)} />
+                    <View
+                      style={[
+                        styles.iconContainer,
+                        { backgroundColor: `${getTypeColor(reminder.type)}20` },
+                      ]}
+                    >
+                      <Icon
+                        name={getTypeIcon(reminder.type)}
+                        size={24}
+                        color={getTypeColor(reminder.type)}
+                      />
                     </View>
                     <View style={styles.reminderInfo}>
                       <View style={styles.typeRow}>
-                        <Text style={styles.reminderType}>{reminder.type}</Text>
+                        <Text
+                          style={[
+                            styles.reminderType,
+                            { color: isDarkMode ? "#b1aeae" : "#111827" },
+                          ]}
+                        >
+                          {reminder.type}
+                        </Text>
                         {reminder.priority && (
-                          <View style={[styles.priorityBadge, { backgroundColor: getPriorityColor(reminder.priority) }]}>
-                            <Text style={styles.priorityText}>{reminder.priority}</Text>
+                          <View
+                            style={[
+                              styles.priorityBadge,
+                              {
+                                backgroundColor: getPriorityColor(
+                                  reminder.priority,
+                                ),
+                              },
+                            ]}
+                          >
+                            <Text style={styles.priorityText}>
+                              {reminder.priority}
+                            </Text>
                           </View>
                         )}
                       </View>
-                      <Text style={styles.reminderDescription}>{reminder.description}</Text>
+                      <Text
+                        style={[
+                          styles.reminderDescription,
+                          { color: isDarkMode ? "#b1aeae" : "#111827" },
+                        ]}
+                      >
+                        {reminder.description}
+                      </Text>
                       {reminder.animalId && (
                         <Text style={styles.animalName}>
-                          Animal: {reminder.animalId.name} ({reminder.animalId.tagId})
+                          Animal: {reminder.animalId.name} (
+                          {reminder.animalId.tagId})
                         </Text>
                       )}
                     </View>
@@ -262,10 +400,16 @@ const RemindersScreen = ({ navigation }) => {
                       </Text>
                     </View>
                     <View style={styles.actions}>
-                      <TouchableOpacity onPress={() => completeReminder(reminder._id)} style={styles.actionButton}>
+                      <TouchableOpacity
+                        onPress={() => completeReminder(reminder._id)}
+                        style={styles.actionButton}
+                      >
                         <Icon name="check" size={20} color="#10b981" />
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => deleteReminder(reminder._id)} style={styles.actionButton}>
+                      <TouchableOpacity
+                        onPress={() => deleteReminder(reminder._id)}
+                        style={styles.actionButton}
+                      >
                         <Icon name="delete" size={20} color="#ef4444" />
                       </TouchableOpacity>
                     </View>
@@ -278,20 +422,50 @@ const RemindersScreen = ({ navigation }) => {
 
         {completedReminders.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Completed</Text>
+            <Text
+              style={[
+                styles.sectionTitle,
+                { color: isDarkMode ? "#fff" : "#111827" },
+              ]}
+            >Completed</Text>
             {completedReminders.map((reminder) => (
-              <Card key={reminder._id} style={[styles.reminderCard, styles.completedCard]}>
+              <Card
+                key={reminder._id}
+                style={[styles.reminderCard, styles.completedCard]}
+              >
                 <Card.Content>
                   <View style={styles.reminderHeader}>
-                    <View style={[styles.iconContainer, { backgroundColor: "#e5e7eb" }]}>
-                      <Icon name={getTypeIcon(reminder.type)} size={24} color="#9ca3af" />
+                    <View
+                      style={[
+                        styles.iconContainer,
+                        { backgroundColor: "#e5e7eb" },
+                      ]}
+                    >
+                      <Icon
+                        name={getTypeIcon(reminder.type)}
+                        size={24}
+                        color="#9ca3af"
+                      />
                     </View>
                     <View style={styles.reminderInfo}>
-                      <Text style={[styles.reminderType, styles.completedText]}>{reminder.type}</Text>
-                      <Text style={[styles.reminderDescription, styles.completedText]}>{reminder.description}</Text>
+                      <Text style={[
+                          styles.reminderDescription,
+                          { color: isDarkMode ? "#b1aeae" : "#111827" },
+                        styles.completedText]}>
+                        {reminder.type}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.reminderDescription,
+                          styles.completedText,
+                        ]}
+                      >
+                        {reminder.description}
+                      </Text>
                       {reminder.animalId && (
                         <Text style={[styles.animalName, styles.completedText]}>
-                          Animal: {reminder.animalId.name} ({reminder.animalId.tagId})
+                          Animal: {reminder.animalId.name} (
+                          {reminder.animalId.tagId})
                         </Text>
                       )}
                     </View>
@@ -300,7 +474,8 @@ const RemindersScreen = ({ navigation }) => {
                     <View style={styles.dateContainer}>
                       <Icon name="check-circle" size={16} color="#10b981" />
                       <Text style={styles.completedDate}>
-                        Completed: {new Date(reminder.completedAt).toLocaleDateString()}
+                        Completed:{" "}
+                        {new Date(reminder.completedAt).toLocaleDateString()}
                       </Text>
                     </View>
                   </View>
@@ -448,7 +623,7 @@ const styles = StyleSheet.create({
   reminderDescription: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#1f2937",
+    color: "#111827",
     marginBottom: 4,
   },
   animalName: {

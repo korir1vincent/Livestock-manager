@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import { Card, Title, Text } from "react-native-paper";
+import { useTheme } from "../context/ThemeContext";
 
 const PRIVACY_POLICY = `Last updated: January 2025
 
