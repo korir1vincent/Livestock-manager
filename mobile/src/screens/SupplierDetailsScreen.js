@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../context/ThemeContext";
 
 const SupplierDetailsScreen = ({ route }) => {
+  const { colors } = useTheme();
   const { itemId } = route.params;
 
   const supplier = {
@@ -29,7 +30,7 @@ const SupplierDetailsScreen = ({ route }) => {
 
   return (
     
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, {backgroundColor: colors.background}]}>
       <SafeAreaView>
 
       {/* Supplier Profile */}

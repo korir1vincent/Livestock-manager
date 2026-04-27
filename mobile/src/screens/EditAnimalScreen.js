@@ -19,6 +19,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme } from "../context/ThemeContext";
 
 const EditAnimalScreen = ({ route, navigation }) => {
+  const{ colors } = useTheme();
   const { animalId } = route.params;
   const [formData, setFormData] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -85,7 +86,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.content}>

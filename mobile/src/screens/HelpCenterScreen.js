@@ -42,13 +42,11 @@ const FAQS = [
     q: "How do I scan an animal for health issues?",
     a: "Go to the Scanner tab and point your camera at the animal. The AI will analyze and return a health report.",
   },
-  {
-    q: "What do I do if the app shows a network error?",
-    a: "Check that your backend server is running and your phone is on the same network. Update the API URL in your .env file if your IP has changed.",
-  },
+  
 ];
 
 const HelpCenterScreen = () => {
+  const { colors } = useTheme();
   const [expanded, setExpanded] = useState(null);
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
@@ -71,9 +69,9 @@ const HelpCenterScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
-        <Card style={styles.card}>
+        <Card style={[styles.card, { color: colors.text }]}>
           <Card.Content>
             <Title>Frequently Asked Questions</Title>
             {FAQS.map((faq, index) => (
@@ -82,7 +80,7 @@ const HelpCenterScreen = () => {
                   style={styles.faqRow}
                   onPress={() => setExpanded(expanded === index ? null : index)}
                 >
-                  <Text style={styles.faqQuestion}>{faq.q}</Text>
+                  <Text style={[styles.faqQuestion, { color: colors.text }]}>{faq.q}</Text>
                   <Icon
                     name={expanded === index ? "chevron-up" : "chevron-down"}
                     size={20}

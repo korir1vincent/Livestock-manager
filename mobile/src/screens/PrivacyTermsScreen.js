@@ -17,19 +17,16 @@ We do not sell your data. We share data only with veterinarians you consult with
 4. Data Security
 We use industry-standard encryption to protect your data. Passwords are hashed and never stored in plain text.
 
-5. Your Rights
-You can request deletion of your account and data at any time by contacting support@mifugo.app.
+5. Cookies & Storage
+We use local device storage to store your preferences and authentication token.
 
-6. Cookies & Storage
-We use local device storage (AsyncStorage) to store your preferences and authentication token.
-
-7. Contact Us
-For privacy concerns, contact us at privacy@mifugo.app.`;
+6. Contact Us
+For privacy concerns, contact us at korirv09@gmail.com.`;
 
 const TERMS = `Last updated: January 2025
 
 1. Acceptance of Terms
-By using Mifugo, you agree to these terms. If you disagree, please do not use the app.
+By using Mifugo, you agree to these terms. 
 
 2. Use of Service
 Mifugo is a livestock management and veterinary consultation platform. You agree to use it only for lawful purposes.
@@ -50,14 +47,15 @@ Mifugo is not liable for any damages resulting from use or inability to use the 
 We may update these terms at any time. Continued use of the app constitutes acceptance of the new terms.
 
 8. Contact
-For questions about these terms, contact legal@mifugo.app.`;
+For questions about these terms, contact korirv09@gmail.com.`;
 
 const PrivacyTermsScreen = ({ route }) => {
+  const { colors } = useTheme();
   const type = route?.params?.type || "privacy";
   const isPrivacy = type === "privacy";
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background}]}>
       <View style={styles.content}>
         <Card style={styles.card}>
           <Card.Content>

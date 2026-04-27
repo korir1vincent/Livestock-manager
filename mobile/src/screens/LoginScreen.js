@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import { TextInput, Button, Text, Title, HelperText } from "react-native-paper";
 import { useAuth } from "../context/AuthContext";
-import { useTheme } from "../context/ThemeContext";
+// import { useTheme } from "../context/ThemeContext";
 
 const LoginScreen = ({ navigation }) => {
+  // const { colors } = useTheme();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -49,7 +50,7 @@ const LoginScreen = ({ navigation }) => {
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.card}>
-<Text style={styles.logo}>👤</Text>
+          <Text style={styles.logo}>👤</Text>
           <Text style={styles.title}>Sign In</Text>
           {/* <Text style={styles.subtitle}>Sign in to continue</Text> */}
 
@@ -138,13 +139,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   // In LoginScreen.js
-title: {
-  fontSize: 30,
-  fontWeight: "bold",
-  textAlign: "center",
-  marginBottom: 15,
-  color: "#1f2937", 
-},
+  title: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 15,
+    color: "#1f2937",
+  },
   subtitle: {
     fontSize: 16,
     textAlign: "center",

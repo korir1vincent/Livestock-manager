@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from "../context/ThemeContext";
 
 const AnimalDetailScreen = ({ route, navigation }) => {
+  const { colors } = useTheme();
   const { animalId } = route.params;
   const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -96,8 +97,8 @@ const handleDelete = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.background }]}>
         <Title style={styles.name}>{animal.name}</Title>
         <Chip
           style={[styles.statusChip, { backgroundColor: getStatusColor(animal.healthStatus) }]}
@@ -107,48 +108,48 @@ const handleDelete = () => {
         </Chip>
       </View>
 
-      <Card style={styles.card}>
+      <Card style={[styles.card, { backgroundColor: colors.background }]}>
         <Card.Content>
           <Title>Basic Information</Title>
           <View style={styles.infoGrid}>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Tag ID:</Text>
-              <Text style={styles.value}>{animal.tagId}</Text>
+              <Text style={styles.label}>{animal.tagId}</Text>
             </View>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Type:</Text>
-              <Text style={styles.value}>{animal.type}</Text>
+              <Text style={styles.label}>{animal.type}</Text>
             </View>
             {animal.breed && (
               <View style={styles.infoRow}>
                 <Text style={styles.label}>Breed:</Text>
-                <Text style={styles.value}>{animal.breed}</Text>
+                <Text style={styles.label}>{animal.breed}</Text>
               </View>
             )}
             <View style={styles.infoRow}>
               <Text style={styles.label}>Gender:</Text>
-              <Text style={styles.value}>{animal.gender}</Text>
+              <Text style={styles.label}>{animal.gender}</Text>
             </View>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Age:</Text>
-              <Text style={styles.value}>{calculateAge(animal.dateOfBirth)}</Text>
+              <Text style={styles.label}>{calculateAge(animal.dateOfBirth)}</Text>
             </View>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Date of Birth:</Text>
-              <Text style={styles.value}>
+              <Text style={styles.label}>
                 {new Date(animal.dateOfBirth).toLocaleDateString()}
               </Text>
             </View>
             {animal.weight && (
               <View style={styles.infoRow}>
                 <Text style={styles.label}>Weight:</Text>
-                <Text style={styles.value}>{animal.weight} kg</Text>
+                <Text style={styles.label}>{animal.weight} kg</Text>
               </View>
             )}
             {animal.color && (
               <View style={styles.infoRow}>
                 <Text style={styles.label}>Color:</Text>
-                <Text style={styles.value}>{animal.color}</Text>
+                <Text style={styles.label}>{animal.color}</Text>
               </View>
             )}
           </View>
@@ -156,7 +157,7 @@ const handleDelete = () => {
       </Card>
 
       {animal.pregnancyStatus !== 'Not Pregnant' && (
-        <Card style={styles.card}>
+        <Card style={[styles.card, { backgroundColor: colors.background }]}>
           <Card.Content>
             <Title>Pregnancy Status</Title>
             <View style={styles.pregnancyInfo}>
@@ -168,7 +169,7 @@ const handleDelete = () => {
       )}
 
       {animal.vaccinations && animal.vaccinations.length > 0 && (
-        <Card style={styles.card}>
+        <Card style={[styles.card, { backgroundColor: colors.background }]}>
           <Card.Content>
             <Title>Vaccinations</Title>
             <View style={styles.vaccinationsList}>
@@ -189,7 +190,7 @@ const handleDelete = () => {
       )}
 
       {animal.notes && (
-        <Card style={styles.card}>
+        <Card style={[styles.card, { backgroundColor: colors.background }]}>
           <Card.Content>
             <Title>Notes</Title>
             <Text style={styles.notes}>{animal.notes}</Text>

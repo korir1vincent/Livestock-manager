@@ -14,6 +14,7 @@ const DEFAULTS = {
 };
 
 const NotificationsSettingsScreen = () => {
+  const { colors } = useTheme();
   const [settings, setSettings] = useState(DEFAULTS);
 
   useEffect(() => {
@@ -69,7 +70,7 @@ const NotificationsSettingsScreen = () => {
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background}]}>
       <View style={styles.content}>
         <Card style={styles.card}>
           <Card.Content>

@@ -20,6 +20,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 const VetScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const [vets, setVets] = useState([]);
   const [consultations, setConsultations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -89,12 +90,12 @@ const VetScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
+      <View style={[styles.header, {backgroundColor: colors.background}]}>
         <Title style={styles.headerTitle}>Veterinary Services</Title>
       </View>
 
-      <View style={styles.tabBar}>
+      <View style={[styles.tabBar, {backgroundColor: colors.background}]}>
         <TouchableOpacity
           style={[styles.tab, activeTab === "vets" && styles.activeTab]}
           onPress={() => setActiveTab("vets")}
@@ -152,7 +153,7 @@ const VetScreen = ({ navigation }) => {
             </Card> */}
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Available Veterinarians</Text>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>Available Veterinarians</Text>
               {vets.length === 0 ? (
                 <View style={styles.emptyContainer}>
                   <Icon name="stethoscope" size={64} color="#d1d5db" />

@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from "../context/ThemeContext";
 
 const FinancialScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const [expenses, setExpenses] = useState([]);
   const [revenues, setRevenues] = useState([]);
   const [summary, setSummary] = useState(null);
@@ -83,8 +84,8 @@ const FinancialScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.background }]}>
         <Title style={styles.headerTitle}>Financial Tracking</Title>
       </View>
 
@@ -153,9 +154,9 @@ const FinancialScreen = ({ navigation }) => {
                         <View style={styles.breakdownHeader}>
                           <View style={styles.categoryLabel}>
                             <Icon name={getCategoryIcon(category)} size={20} color={getCategoryColor(category)} />
-                            <Text style={styles.categoryName}>{category}</Text>
+                            <Text style={[styles.categoryName, { color: colors.text }]}>{category}</Text>
                           </View>
-                          <Text style={styles.categoryAmount}>KES {amount.toFixed(2)}</Text>
+                          <Text style={[styles.categoryAmount, { color: colors.text }]}>KES {amount.toFixed(2)}</Text>
                         </View>
                         <View style={styles.progressBar}>
                           <View
@@ -182,11 +183,11 @@ const FinancialScreen = ({ navigation }) => {
                 <View style={styles.transactionSummary}>
                   <View style={styles.summaryRow}>
                     <Text style={styles.summaryLabel}>Total Expenses Transactions:</Text>
-                    <Text style={styles.summaryValue}>{summary.transactionCount.expenses}</Text>
+                    <Text style={styles.summaryLabel}>{summary.transactionCount.expenses}</Text>
                   </View>
                   <View style={styles.summaryRow}>
                     <Text style={styles.summaryLabel}>Total Revenue Transactions:</Text>
-                    <Text style={styles.summaryValue}>{summary.transactionCount.revenues}</Text>
+                    <Text style={styles.summaryLabel}>{summary.transactionCount.revenues}</Text>
                   </View>
                 </View>
               </Card.Content>

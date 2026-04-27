@@ -208,12 +208,12 @@ const ProfileScreen = ({ navigation }) => {
               }
             />
             <Divider />
-            <List.Item
+            {/* <List.Item
               title="About"
               description="Version 1.0.0"
               left={(props) => <List.Icon {...props} icon="information" />}
               right={(props) => <List.Icon {...props} icon="chevron-right" />}
-            />
+            /> */}
           </Card.Content>
         </Card>
 

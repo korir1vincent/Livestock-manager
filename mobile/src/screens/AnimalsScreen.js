@@ -130,7 +130,7 @@ const AnimalsScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <SafeAreaView>
         <View
           style={[
@@ -148,8 +148,9 @@ const AnimalsScreen = ({ navigation }) => {
             Add Animal
           </Button>
         </View>
+        <ScrollView></ScrollView>
 
-        <View style={styles.searchSection}>
+        <View style={[styles.searchSection, { backgroundColor: colors.background }]}>
           <Searchbar
             placeholder="Search by name or tag ID"
             onChangeText={setSearchQuery}
@@ -170,7 +171,7 @@ const AnimalsScreen = ({ navigation }) => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={true}
-          style={styles.filterSection}
+          style={[styles.filterSection, { backgroundColor: colors.background }]}
         >
           <Text
             style={[
@@ -195,7 +196,7 @@ const AnimalsScreen = ({ navigation }) => {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={true}
-          style={styles.filterSection}
+          style={[styles.filterSection, { backgroundColor: colors.background }]}
         >
           <Text style={styles.filterLabel}>Status:</Text>
           {healthStatuses.map((status) => (
@@ -210,14 +211,14 @@ const AnimalsScreen = ({ navigation }) => {
           ))}
         </ScrollView>
       </SafeAreaView>
-      <ScrollView>
+     
         <ScrollView
           style={styles.listContainer}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
         >
-          <View style={styles.statsRow}>
+          <View style={[styles.statsRow, { backgroundColor: colors.background }]}>
             <Text style={styles.statsText}>
               Showing {filteredAnimals.length} of {animals.length} animals
             </Text>
@@ -310,7 +311,7 @@ const AnimalsScreen = ({ navigation }) => {
             ))
           )}
         </ScrollView>
-      </ScrollView>
+      
     </View>
   );
 };

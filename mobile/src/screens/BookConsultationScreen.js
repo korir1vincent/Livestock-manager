@@ -20,6 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme } from "../context/ThemeContext";
 
 const BookConsultationScreen = ({ route, navigation }) => {
+  const { colors } = useTheme();
   const { vetId } = route.params;
   const [vet, setVet] = useState(null);
   const [formData, setFormData] = useState({
@@ -93,9 +94,9 @@ const BookConsultationScreen = ({ route, navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
-      <ScrollView contentContainerStyle={styles.scrollView}>
+      <ScrollView contentContainerStyle={[styles.scrollView, { backgroundColor: colors.background }]}>
         <View style={styles.content}>
           <Title style={styles.title}>Book Consultation</Title>
 

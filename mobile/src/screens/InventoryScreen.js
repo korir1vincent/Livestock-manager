@@ -21,6 +21,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 const InventoryScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -123,8 +124,8 @@ const InventoryScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <View style={[styles.header, { backgroundColor: colors.background }]}>
         <Title style={styles.headerTitle}>Inventory</Title>
       </View>
 
@@ -132,10 +133,10 @@ const InventoryScreen = ({ navigation }) => {
         <Card style={styles.statCard}>
           <Card.Content>
             <Text style={styles.statLabel}>Total Items</Text>
-            <Text style={styles.statValue}>{filteredItems.length}</Text>
+            <Text style={[styles.statValue, { color: colors.text }]}>{filteredItems.length}</Text>
           </Card.Content>
         </Card>
-        <Card style={styles.statCard}>
+        <Card style={[styles.statCard, { color: colors.text }]}>
           <Card.Content>
             <Text style={styles.statLabel}>Low Stock</Text>
             <Text style={[styles.statValue, styles.lowStockValue]}>
@@ -146,7 +147,7 @@ const InventoryScreen = ({ navigation }) => {
         <Card style={styles.statCard}>
           <Card.Content>
             <Text style={styles.statLabel}>Total Value</Text>
-            <Text style={styles.statValue}>KES {totalValue.toFixed(0)}</Text>
+            <Text style={[styles.statValue, { color: colors.text }]}>KES {totalValue.toFixed(0)}</Text>
           </Card.Content>
         </Card>
       </View>
@@ -154,7 +155,7 @@ const InventoryScreen = ({ navigation }) => {
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={styles.filterSection}
+        style={[styles.filterSection, { backgroundColor: colors.background }]}
       >
         {categories.map((category) => (
           <Chip
@@ -178,7 +179,7 @@ const InventoryScreen = ({ navigation }) => {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <Icon name="alert-circle" size={24} color="#ef4444" />
-              <Text style={styles.sectionTitle}>Low Stock Alert</Text>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>Low Stock Alert</Text>
             </View>
             {lowStockItems.map((item) => (
               <Card key={item._id} style={[styles.itemCard, styles.lowStockCard]}>
@@ -188,14 +189,14 @@ const InventoryScreen = ({ navigation }) => {
                       <Icon name={getCategoryIcon(item.category)} size={24} color={getCategoryColor(item.category)} />
                     </View>
                     <View style={styles.itemInfo}>
-                      <Text style={styles.itemName}>{item.name}</Text>
-                      <Text style={styles.itemCategory}>{item.category}</Text>
+                      <Text style={[styles.itemName, { color: colors.text }]}>{item.name}</Text>
+                      <Text style={[styles.itemCategory, { color: colors.text }]}>{item.category}</Text>
                     </View>
                   </View>
                   <View style={styles.itemDetails}>
                     <View style={styles.quantityRow}>
                       <Text style={styles.quantityLabel}>Stock:</Text>
-                      <Text style={[styles.quantity, styles.lowStockQuantity]}>
+                      <Text style={[styles.quantity, styles.lowStockQuantity ]}>
                         {item.quantity} {item.unit}
                       </Text>
                     </View>
@@ -218,13 +219,13 @@ const InventoryScreen = ({ navigation }) => {
         )}
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>
             {selectedCategory === "All" ? "All Items" : selectedCategory}
           </Text>
           {filteredItems.length === 0 ? (
             <View style={styles.emptyContainer}>
               <Icon name="package-variant-closed" size={64} color="#d1d5db" />
-              <Text style={styles.emptyText}>No items found</Text>
+              <Text style={[styles.emptyText, { color: colors.text }]}>No items found</Text>
               <Button
                 mode="contained"
                 onPress={() => navigation.navigate("AddInventory")}
@@ -243,8 +244,8 @@ const InventoryScreen = ({ navigation }) => {
                       <Icon name={getCategoryIcon(item.category)} size={24} color={getCategoryColor(item.category)} />
                     </View>
                     <View style={styles.itemInfo}>
-                      <Text style={styles.itemName}>{item.name}</Text>
-                      <Text style={styles.itemCategory}>{item.category}</Text>
+                      <Text style={[styles.itemName, { color: colors.text }]}>{item.name}</Text>
+                      <Text style={[styles.itemCategory, { color: colors.text }]}>{item.category}</Text>
                     </View>
                     <TouchableOpacity onPress={() => deleteItem(item._id)}>
                       <Icon name="delete" size={20} color="#ef4444" />

@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../context/ThemeContext";
 
 const VetApplicationScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const [formData, setFormData] = useState({
     phone: "",
     specialty: "",
@@ -100,7 +101,7 @@ const VetApplicationScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={[styles.container, {backgroundColor: colors.background}]}
     >
       <SafeAreaView>
         <ScrollView contentContainerStyle={styles.scrollView}>

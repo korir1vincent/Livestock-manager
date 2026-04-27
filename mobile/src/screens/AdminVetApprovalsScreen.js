@@ -20,6 +20,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 const AdminVetApprovalsScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);

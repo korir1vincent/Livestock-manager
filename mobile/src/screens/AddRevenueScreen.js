@@ -161,42 +161,32 @@ const AddRevenueScreen = ({ navigation }) => {
               />
             )}
 
-            <View
-              style={[
-                styles.pickerContainer,
-                { backgroundColor: isDarkMode ? "#1f2937" : "#ffffff" },
-              ]}
-            >
-              <Title
-                style={[
-                  styles.label,
-                  { color: isDarkMode ? "#f9fafb" : "#0f172a" },
-                ]}
-              >
-                Animal (Optional)
-              </Title>
-              <Picker
-                selectedValue={formData.animalId}
-                onValueChange={(value) => updateField("animalId", value)}
-                style={[
-                  styles.picker,
-                  {
-                    color: isDarkMode ? "#f9fafb" : "#1f2937",
-                    backgroundColor: isDarkMode ? "#374151" : "#ffffff",
-                  },
-                ]}
-                dropdownIconColor={isDarkMode ? "#f9fafb" : "#1f2937"}
-              >
-                <Picker.Item label="General Revenue" value="" />
-                {animals.map((animal) => (
-                  <Picker.Item
-                    key={animal._id}
-                    label={`${animal.name} (${animal.tagId})`}
-                    value={animal._id}
-                  />
-                ))}
-              </Picker>
-            </View>
+            <View style={styles.pickerContainer}>
+                        <Title style={[styles.label, { color: colors.textMuted }]}>
+                          Animal (Optional)
+                        </Title>
+                        <View
+                          style={[
+                            styles.pickerWrapper,
+                            { backgroundColor: colors.surface, borderColor: colors.border },
+                          ]}
+                        >
+                          <Picker
+                            selectedValue={formData.animalId}
+                            onValueChange={(v) => updateField("animalId", v)}
+                            style={{ color: colors.text }}
+                          >
+                            <Picker.Item label="General Revenue" value="" />
+                            {animals.map((animal) => (
+                              <Picker.Item
+                                key={animal._id}
+                                label={`${animal.name} (${animal.tagId})`}
+                                value={animal._id}
+                              />
+                            ))}
+                          </Picker>
+                        </View>
+                      </View>
 
             <Title style={styles.sectionTitle}>
               Buyer Information (Optional)

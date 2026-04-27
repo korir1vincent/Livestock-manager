@@ -6,6 +6,7 @@ import { MaterialCommunityIcons as Icon } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 
 const DataStorageScreen = () => {
+  const { colors } = useTheme();
   const [keys, setKeys] = useState([]);
   const [clearing, setClearing] = useState(false);
 
@@ -48,9 +49,7 @@ const DataStorageScreen = () => {
           onPress: async () => {
             setClearing(true);
             try {
-              const cacheKeys = keys.filter(
-                (k) => !["authToken", "user"].includes(k),
-              );
+              const cacheKeys = keys.filter((k) => ![].includes(k));
               await AsyncStorage.multiRemove(cacheKeys);
               loadKeys();
               Alert.alert("Done", "Cache cleared successfully");
@@ -72,7 +71,9 @@ const DataStorageScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: colors.background }]}
+    >
       <View style={styles.content}>
         <Card style={styles.card}>
           <Card.Content>
@@ -91,7 +92,7 @@ const DataStorageScreen = () => {
                       <List.Icon {...props} icon={getIcon(key)} />
                     )}
                     right={() =>
-                      !["authToken", "user"].includes(key) && (
+                      ![].includes(key) && (
                         <Button
                           compact
                           mode="text"
@@ -109,22 +110,18 @@ const DataStorageScreen = () => {
             )}
           </Card.Content>
         </Card>
-
-        
-
-        
       </View>
       <Button
-          mode="contained"
-          icon="trash-can"
-          onPress={clearAllCache}
-          loading={clearing}
-          disabled={clearing}
-          buttonColor="#ef4444"
-          style={styles.clearButton}
-        >
-          Clear All Cache
-        </Button>
+        mode="contained"
+        icon="trash-can"
+        onPress={clearAllCache}
+        loading={clearing}
+        disabled={clearing}
+        buttonColor="#ef4444"
+        style={styles.clearButton}
+      >
+        Clear All Cache
+      </Button>
     </ScrollView>
   );
 };
@@ -135,7 +132,12 @@ const styles = StyleSheet.create({
   card: { elevation: 2, marginBottom: 16 },
   subtitle: { color: "#6b7280", fontSize: 13, marginBottom: 16 },
   empty: { textAlign: "center", color: "#9ca3af", paddingVertical: 24 },
-  clearButton: { paddingVertical: 6, marginBottom: 16 },
+  clearButton: {
+    paddingVertical: 6,
+    marginBottom: 16,
+    marginRight: 15,
+    marginLeft: 15,
+  },
   note: {
     fontSize: 12,
     color: "#9ca3af",

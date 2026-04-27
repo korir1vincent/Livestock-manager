@@ -19,6 +19,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 const VetDashboardScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const [consultations, setConsultations] = useState([]);
   const [vetProfile, setVetProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -111,7 +112,7 @@ const VetDashboardScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: colors.background}]}>
       {/* Header */}
       <View style={styles.header}>
         <View>

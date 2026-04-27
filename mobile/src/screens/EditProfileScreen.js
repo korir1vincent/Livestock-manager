@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../context/ThemeContext";
 
 const EditProfileScreen = ({ navigation }) => {
+  const { colors } = useTheme();
   const { user, getAuthenticatedAxios, login } = useAuth();
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -65,7 +66,7 @@ const EditProfileScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
+      style={[styles.container, { backgroundColor: colors.background }]}
     >
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.content}>
