@@ -77,6 +77,7 @@ function SplashStackScreen({ onFinish }) {
 }
 
 function MainTabs() {
+  const { isDarkMode, colors } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -104,7 +105,15 @@ function MainTabs() {
           return <Icon name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#16a34a",
-        tabBarInactiveTintColor: "#6b7280",
+        tabBarInactiveTintColor: isDarkMode ? "#64748b" : "#6b7280",
+        tabBarStyle: {
+          backgroundColor: colors.surface,
+          borderTopColor: colors.border,
+          borderTopWidth: 1,
+        },
+        tabBarLabelStyle: {
+          color: colors.textMuted,
+        },
         headerShown: false,
       })}
     >
