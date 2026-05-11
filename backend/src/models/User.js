@@ -31,6 +31,14 @@ const userSchema = new mongoose.Schema({
     enum: ['farmer', 'vet', 'admin'], 
     default: 'farmer' 
   },
+  suspended: {
+    type: Boolean,
+    default: false
+  },
+  vetStatus: {
+    type: String,
+    enum: ['pending', 'approved'],
+  },
   resetPasswordCode: {
     type: String,
     select: false
