@@ -287,7 +287,7 @@ const ScannerScreen = ({ navigation }) => {
       {scan.analysis.recommendations?.map((rec, index) => (
         <Card key={index} style={styles.card}>
           <Card.Content>
-            <Title>{rec.recommendationType}</Title>
+            <Title>{rec.recommendationType || rec.type}</Title>
             {rec.items?.map((item, i) => (
               <View key={i} style={styles.listItem}>
                 <Icon name="check-circle" size={18} color="#16a34a" />
@@ -525,7 +525,7 @@ const ScannerScreen = ({ navigation }) => {
               {analysisResult.recommendations?.map((rec, index) => (
                 <Card key={index} style={styles.card}>
                   <Card.Content>
-                    <Title>{rec.recommendationType}</Title>
+                    <Title>{rec.type || rec.recommendationType}</Title>
                     {rec.items.map((item, i) => (
                       <View key={i} style={styles.listItem}>
                         <Icon name="check-circle" size={18} color="#16a34a" />
@@ -587,7 +587,7 @@ const ScannerScreen = ({ navigation }) => {
       {/* History Tab */}
       {activeTab === "history" && (
         <View style={styles.content}>
-          <Title style={styles.title}>Scan History</Title>
+          <Title style={[styles.title, { color: colors.text }]}>Scan History</Title>
 
           {loadingHistory ? (
             <View style={styles.analyzingContent}>
@@ -635,7 +635,7 @@ const ScannerScreen = ({ navigation }) => {
                               minute: "2-digit",
                             })}
                           </Text>
-                          <Text style={styles.historyCondition}>
+                          <Text style={[styles.historyCondition]}>
                             {scan.analysis.condition}
                           </Text>
                         </View>

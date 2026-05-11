@@ -19,7 +19,7 @@ It helps farmers and livestock managers track animals, health records, finances,
 - 👨‍⚕️ Vet consultation & booking system
 - 💬 Real-time chat with vets
 - 👤 User profile management
-- ⚙️ Settings (language, notifications, privacy)
+- ⚙️ Settings (dark mode, notifications, privacy)
 
 ---
 
@@ -53,4 +53,3 @@ It helps farmers and livestock managers track animals, health records, finances,
 
 ---
 
-## 🌐 System Architecture
