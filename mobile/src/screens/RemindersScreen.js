@@ -228,7 +228,7 @@ const RemindersScreen = ({ navigation }) => {
             <Text
               style={[
                 styles.sectionTitle,
-                { color: isDarkMode ? "#fff" : "#111827" },
+                { color: isDarkMode ? "#bb1212" : "#111827" },
               ]}
             >
               Overdue
@@ -425,7 +425,7 @@ const RemindersScreen = ({ navigation }) => {
             <Text
               style={[
                 styles.sectionTitle,
-                { color: isDarkMode ? "#fff" : "#111827" },
+                { color: isDarkMode ? "#1f910f" : "#111827" },
               ]}
             >Completed</Text>
             {completedReminders.map((reminder) => (

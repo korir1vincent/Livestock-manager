@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -123,6 +121,15 @@ const ScannerScreen = ({ navigation }) => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Analysis failed");
       setAnalysisResult(data.analysis);
+      const analysis = data.analysis;
+      if (typeof analysis.recommendations === "string") {
+        try {
+          analysis.recommendations = JSON.parse(analysis.recommendations);
+        } catch {
+          analysis.recommendations = [];
+        }
+      }
+      setAnalysisResult(analysis);
     } catch (error) {
       console.error("Analysis error:", error);
       Alert.alert("Error", error.message || "Failed to analyze image");
@@ -137,14 +144,19 @@ const ScannerScreen = ({ navigation }) => {
     try {
       const api = getAuthenticatedAxios();
       await api.post("/scan", {
-        livestock: analysisResult.livestock,
-        healthStatus: analysisResult.healthStatus,
-        condition: analysisResult.condition,
-        severity: analysisResult.severity,
-        confidence: analysisResult.confidence,
-        symptoms: analysisResult.symptoms,
-        recommendations: analysisResult.recommendations,
-        vetConsultRequired: analysisResult.vetConsultRequired,
+        analysis: {
+          livestock: analysisResult.livestock,
+          confidence: analysisResult.confidence,
+          healthStatus: analysisResult.healthStatus,
+          condition: analysisResult.condition,
+          symptoms: analysisResult.symptoms,
+          vetConsultRequired: analysisResult.vetConsultRequired,
+          severity: analysisResult.severity,
+          recommendations: analysisResult.recommendations.map((rec) => ({
+            recommendationType: rec.type,
+            items: rec.items,
+          })),
+        },
         imageUrl: selectedImage,
         scannedAt: new Date(),
       });
@@ -159,11 +171,16 @@ const ScannerScreen = ({ navigation }) => {
         { text: "Scan Another", onPress: resetScanner },
       ]);
     } catch (error) {
-      console.error("Save error:", error);
+      console.error("Save error:", error.response?.data); 
       Alert.alert("Error", "Failed to save scan results");
     } finally {
       setIsSaving(false);
     }
+    console.log("recommendations type:", typeof analysisResult.recommendations);
+    console.log(
+      "recommendations value:",
+      JSON.stringify(analysisResult.recommendations),
+    );
   };
 
   const deleteScan = async (scanId) => {
@@ -210,13 +227,13 @@ const ScannerScreen = ({ navigation }) => {
         <Card.Content>
           <View style={styles.resultItem}>
             <Text style={styles.resultLabel}>Detected:</Text>
-            <Text style={styles.resultValue}>{scan.livestock}</Text>
+            <Text style={styles.resultValue}>{scan.analysis.livestock}</Text>
           </View>
           <View style={styles.resultItem}>
             <Text style={styles.resultLabel}>Confidence:</Text>
             <Text style={[styles.resultValue, {}]}>
-              {scan.confidence
-                ? (scan.confidence * 100).toFixed(0) + "%"
+              {scan.analysis.confidence
+                ? (scan.analysis.confidence * 100).toFixed(0) + "%"
                 : "N/A"}
             </Text>
           </View>
@@ -225,10 +242,10 @@ const ScannerScreen = ({ navigation }) => {
             <Text
               style={[
                 styles.resultValue,
-                { color: getSeverityColor(scan.severity) },
+                { color: getSeverityColor(scan.analysis.severity) },
               ]}
             >
-              {scan.healthStatus}
+              {scan.analysis.healthStatus}
             </Text>
           </View>
           <View style={styles.resultItem}>
@@ -236,10 +253,10 @@ const ScannerScreen = ({ navigation }) => {
             <Text
               style={[
                 styles.resultValue,
-                { color: getSeverityColor(scan.severity) },
+                { color: getSeverityColor(scan.analysis.severity) },
               ]}
             >
-              {scan.severity}
+              {scan.analysis.severity}
             </Text>
           </View>
         </Card.Content>
@@ -249,12 +266,14 @@ const ScannerScreen = ({ navigation }) => {
         <Card.Content>
           <View style={styles.conditionHeader}>
             <Icon name="alert-circle" size={24} color="#f59e0b" />
-            <Title style={styles.conditionTitle}>{scan.condition}</Title>
+            <Title style={styles.conditionTitle}>
+              {scan.analysis.condition}
+            </Title>
           </View>
-          {scan.symptoms?.length > 0 && (
+          {scan.analysis.symptoms?.length > 0 && (
             <>
               <Text style={styles.sectionTitle}>Observed Symptoms:</Text>
-              {scan.symptoms.map((symptom, i) => (
+              {scan.analysis.symptoms.map((symptom, i) => (
                 <View key={i} style={styles.listItem}>
                   <Icon name="circle-small" size={20} color="#6b7280" />
                   <Text style={styles.listText}>{symptom}</Text>
@@ -265,10 +284,10 @@ const ScannerScreen = ({ navigation }) => {
         </Card.Content>
       </Card>
 
-      {scan.recommendations?.map((rec, index) => (
+      {scan.analysis.recommendations?.map((rec, index) => (
         <Card key={index} style={styles.card}>
           <Card.Content>
-            <Title>{rec.type}</Title>
+            <Title>{rec.recommendationType}</Title>
             {rec.items?.map((item, i) => (
               <View key={i} style={styles.listItem}>
                 <Icon name="check-circle" size={18} color="#16a34a" />
@@ -279,7 +298,7 @@ const ScannerScreen = ({ navigation }) => {
         </Card>
       ))}
 
-      {scan.vetConsultRequired && (
+      {scan.analysis.vetConsultRequired && (
         <Card style={[styles.card, styles.vetCard]}>
           <Card.Content>
             <View style={styles.vetHeader}>
@@ -314,53 +333,58 @@ const ScannerScreen = ({ navigation }) => {
   );
 
   return (
-    <ScrollView style={[styles.wrapper, {backgroundColor: colors.background}]} stickyHeaderIndices={[0]}>
+    <ScrollView
+      style={[styles.wrapper, { backgroundColor: colors.background }]}
+      stickyHeaderIndices={[0]}
+    >
       {/* Sticky Tab Bar inside scroll */}
       <SafeAreaView>
-      <View style={[styles.tabBar, {backgroundColor: colors.background}]}>
-        <TouchableOpacity
-          style={[styles.tab, activeTab === "scanner" && styles.activeTab]}
-          onPress={() => setActiveTab("scanner")}
-        >
-          <Icon
-            name="camera"
-            size={18}
-            color={activeTab === "scanner" ? "#16a34a" : "#6b7280"}
-          />
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === "scanner" && styles.activeTabText,
-            ]}
+        <View style={[styles.tabBar, { backgroundColor: colors.background }]}>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === "scanner" && styles.activeTab]}
+            onPress={() => setActiveTab("scanner")}
           >
-            Scanner
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tab, activeTab === "history" && styles.activeTab]}
-          onPress={() => setActiveTab("history")}
-        >
-          <Icon
-            name="history"
-            size={18}
-            color={activeTab === "history" ? "#16a34a" : "#6b7280"}
-          />
-          <Text
-            style={[
-              styles.tabText,
-              activeTab === "history" && styles.activeTabText,
-            ]}
+            <Icon
+              name="camera"
+              size={18}
+              color={activeTab === "scanner" ? "#16a34a" : "#6b7280"}
+            />
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "scanner" && styles.activeTabText,
+              ]}
+            >
+              Scanner
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === "history" && styles.activeTab]}
+            onPress={() => setActiveTab("history")}
           >
-            History {scanHistory.length > 0 ? `(${scanHistory.length})` : ""}
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <Icon
+              name="history"
+              size={18}
+              color={activeTab === "history" ? "#16a34a" : "#6b7280"}
+            />
+            <Text
+              style={[
+                styles.tabText,
+                activeTab === "history" && styles.activeTabText,
+              ]}
+            >
+              History {scanHistory.length > 0 ? `(${scanHistory.length})` : ""}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
 
       {/* Scanner Tab */}
       {activeTab === "scanner" && (
         <View style={styles.content}>
-          <Title style={styles.title}>AI Health Scanner</Title>
+          <Title style={[styles.title, { color: colors.text }]}>
+            AI Health Scanner
+          </Title>
           <Text style={styles.subtitle}>
             Take or upload a photo of your livestock for instant AI health
             analysis
@@ -445,13 +469,13 @@ const ScannerScreen = ({ navigation }) => {
                   <Title>Analysis Results</Title>
                   <View style={styles.resultItem}>
                     <Text style={styles.resultLabel}>Detected:</Text>
-                    <Text style={styles.resultValue}>
+                    <Text style={[styles.resultLabel, { color: colors.text }]}>
                       {analysisResult.livestock}
                     </Text>
                   </View>
                   <View style={styles.resultItem}>
                     <Text style={styles.resultLabel}>Confidence:</Text>
-                    <Text style={styles.resultValue}>
+                    <Text style={[styles.resultValue, { color: colors.text }]}>
                       {(analysisResult.confidence * 100).toFixed(0)}%
                     </Text>
                   </View>
@@ -501,7 +525,7 @@ const ScannerScreen = ({ navigation }) => {
               {analysisResult.recommendations?.map((rec, index) => (
                 <Card key={index} style={styles.card}>
                   <Card.Content>
-                    <Title>{rec.type}</Title>
+                    <Title>{rec.recommendationType}</Title>
                     {rec.items.map((item, i) => (
                       <View key={i} style={styles.listItem}>
                         <Icon name="check-circle" size={18} color="#16a34a" />
@@ -602,7 +626,7 @@ const ScannerScreen = ({ navigation }) => {
                       <View style={styles.historyHeader}>
                         <View style={styles.historyInfo}>
                           <Text style={styles.historyLivestock}>
-                            {scan.livestock}
+                            {scan.analysis.livestock}
                           </Text>
                           <Text style={styles.historyDate}>
                             {new Date(scan.createdAt).toLocaleDateString()} ·{" "}
@@ -612,7 +636,7 @@ const ScannerScreen = ({ navigation }) => {
                             })}
                           </Text>
                           <Text style={styles.historyCondition}>
-                            {scan.condition}
+                            {scan.analysis.condition}
                           </Text>
                         </View>
                         <View style={styles.historyRight}>
@@ -621,13 +645,13 @@ const ScannerScreen = ({ navigation }) => {
                               styles.severityBadge,
                               {
                                 backgroundColor: getSeverityColor(
-                                  scan.severity,
+                                  scan.analysis.severity,
                                 ),
                               },
                             ]}
                           >
                             <Text style={styles.severityText}>
-                              {scan.severity}
+                              {scan.analysis.severity}
                             </Text>
                           </View>
                           <Icon
@@ -645,15 +669,15 @@ const ScannerScreen = ({ navigation }) => {
                         <Icon
                           name="heart-pulse"
                           size={16}
-                          color={getSeverityColor(scan.severity)}
+                          color={getSeverityColor(scan.analysis.severity)}
                         />
                         <Text
                           style={[
                             styles.historyStatusText,
-                            { color: getSeverityColor(scan.severity) },
+                            { color: getSeverityColor(scan.analysis.severity) },
                           ]}
                         >
-                          {scan.healthStatus}
+                          {scan.analysis.healthStatus}
                         </Text>
                       </View>
                     </Card.Content>

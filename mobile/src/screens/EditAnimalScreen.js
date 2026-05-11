@@ -17,6 +17,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme } from "../context/ThemeContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const EditAnimalScreen = ({ route, navigation }) => {
   const{ colors } = useTheme();
@@ -88,6 +89,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={[styles.container, { backgroundColor: colors.background }]}
     >
+      <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.content}>
           <Title style={styles.title}>Edit Animal</Title>
@@ -231,6 +233,7 @@ const EditAnimalScreen = ({ route, navigation }) => {
           </Button>
         </View>
       </ScrollView>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };

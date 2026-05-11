@@ -4,6 +4,7 @@ import { TextInput, Button, Title, HelperText, SegmentedButtons } from 'react-na
 import { useAuth } from '../context/AuthContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useTheme } from "../context/ThemeContext";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AddAnimalScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -54,6 +55,7 @@ const AddAnimalScreen = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={[styles.container, { backgroundColor: colors.background }]}
     >
+      <SafeAreaView>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.content}>
           <Title style={[styles.title, { color: colors.text }]}>Add New Animal</Title>
@@ -130,6 +132,7 @@ const AddAnimalScreen = ({ navigation }) => {
           </Button>
         </View>
       </ScrollView>
+      </SafeAreaView>
     </KeyboardAvoidingView>
   );
 };

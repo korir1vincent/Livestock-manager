@@ -57,6 +57,166 @@ const healthTips = [
     title: "Record Keeping",
     tip: "Keep detailed health records for each animal. Records help identify patterns and improve herd management decisions.",
   },
+  {
+    title: "Pregnancy Monitoring",
+    tip: "Monitor pregnant animals closely in the last trimester. Ensure they have extra nutrition and a clean, quiet space for calving.",
+  },
+  {
+    title: "Colostrum Feeding",
+    tip: "Ensure newborns receive colostrum within the first 6 hours of birth. Colostrum provides essential antibodies for survival.",
+  },
+  {
+    title: "Tick Control",
+    tip: "Dip or spray animals regularly to control ticks. Ticks transmit East Coast Fever, Anaplasmosis, and Babesiosis.",
+  },
+  {
+    title: "Separation by Age",
+    tip: "Separate young animals from adults to prevent competition for feed and reduce disease transmission to vulnerable young stock.",
+  },
+  {
+    title: "Dry Season Feeding",
+    tip: "Stock hay, silage, or crop residues before the dry season. Feed shortage during dry seasons is the leading cause of weight loss.",
+  },
+  {
+    title: "Salt Supplementation",
+    tip: "Provide salt licks year-round. Sodium deficiency causes animals to lick soil, fences, and urine, spreading disease.",
+  },
+  {
+    title: "Castration Timing",
+    tip: "Castrate male animals not kept for breeding at 2-4 weeks of age. Early castration reduces stress and speeds recovery.",
+  },
+  {
+    title: "Biosecurity Measures",
+    tip: "Control farm entry — quarantine new animals for at least 21 days before introducing them to your existing herd.",
+  },
+  {
+    title: "Fly Control",
+    tip: "Control flies around your farm. Flies spread pinkeye, wounds infections, and cause significant stress that reduces productivity.",
+  },
+  {
+    title: "Ear Tag Maintenance",
+    tip: "Check ear tags monthly. Lost tags make record keeping difficult and can lead to mix-ups in treatment and breeding records.",
+  },
+  {
+    title: "Milk Hygiene",
+    tip: "Clean udders thoroughly before milking. Poor milking hygiene causes mastitis, which can permanently reduce milk production.",
+  },
+  {
+    title: "Mastitis Testing",
+    tip: "Do a California Mastitis Test monthly on dairy cows. Subclinical mastitis has no visible signs but drastically cuts milk yield.",
+  },
+  {
+    title: "Shade and Shelter",
+    tip: "Provide adequate shade during hot seasons. Heat stress in cattle reduces feed intake, milk production, and conception rates.",
+  },
+  {
+    title: "Rotational Grazing",
+    tip: "Rotate pastures every 3-4 weeks. Rotational grazing reduces parasite loads, improves grass quality, and prevents overgrazing.",
+  },
+  {
+    title: "Breeding Records",
+    tip: "Record all breeding dates accurately. Knowing the expected calving date allows you to prepare and reduce calving complications.",
+  },
+  {
+    title: "Neonatal Care",
+    tip: "Dip newborn navels in iodine solution immediately after birth to prevent navel ill, a common and fatal bacterial infection.",
+  },
+  {
+    title: "Phosphorus Supplementation",
+    tip: "Supplement phosphorus especially in dry seasons. Deficiency causes poor reproduction, weak bones, and low milk production.",
+  },
+  {
+    title: "Lice and Mite Control",
+    tip: "Inspect animals for lice and mites regularly, especially in cold seasons. Heavy infestations cause severe weight loss and anemia.",
+  },
+  {
+    title: "Water Trough Cleaning",
+    tip: "Clean water troughs at least twice a week. Algae and bacteria in dirty water cause diarrhea and reduce water intake.",
+  },
+  {
+    title: "Proper Waste Disposal",
+    tip: "Dispose of dead animals and placenta promptly and properly. Rotting carcasses attract predators and spread disease.",
+  },
+  {
+    title: "Stress Reduction",
+    tip: "Minimize unnecessary handling and loud noises around livestock. Chronic stress suppresses immunity and reduces productivity.",
+  },
+  {
+    title: "Vitamin A Supplementation",
+    tip: "Supplement Vitamin A during dry seasons when green fodder is scarce. Deficiency causes night blindness and poor reproduction.",
+  },
+  {
+    title: "Goat Browsing Needs",
+    tip: "Goats prefer browsing shrubs and trees over grazing grass. Mixed vegetation farms suit goats better than pure grass pastures.",
+  },
+  {
+    title: "Sheep Foot Rot Prevention",
+    tip: "Walk sheep through a zinc sulfate footbath monthly to prevent foot rot, especially during wet seasons.",
+  },
+  {
+    title: "Pig Feeding Hygiene",
+    tip: "Never feed pigs raw meat or kitchen scraps containing meat. This spreads African Swine Fever, which has no treatment or vaccine.",
+  },
+  {
+    title: "Poultry Newcastle Disease",
+    tip: "Vaccinate poultry against Newcastle Disease every 3 months. It spreads rapidly and can wipe out an entire flock within a week.",
+  },
+  {
+    title: "Antibiotic Stewardship",
+    tip: "Only use antibiotics prescribed by a vet and complete the full course. Overuse creates resistant bacteria that become untreatable.",
+  },
+  {
+    title: "Weight Monitoring",
+    tip: "Weigh animals monthly if possible. Unexpected weight loss is often the first sign of disease, parasites, or nutritional deficiency.",
+  },
+  {
+    title: "Drenching Technique",
+    tip: "When drenching animals, administer medication slowly over the tongue base to prevent aspiration pneumonia.",
+  },
+  {
+    title: "Calving Assistance",
+    tip: "If a cow has been in labor for more than 2 hours without progress, call a vet immediately. Delayed assistance causes calf and cow deaths.",
+  },
+  {
+    title: "Bloat Prevention",
+    tip: "Avoid turning cattle onto lush legume pastures when hungry. Sudden diet changes cause bloat, which can be fatal within hours.",
+  },
+  {
+    title: "Copper Toxicity in Sheep",
+    tip: "Never feed sheep cattle mineral supplements. Sheep are highly sensitive to copper and even small excesses cause fatal liver damage.",
+  },
+  {
+    title: "Livestock Insurance",
+    tip: "Consider livestock insurance for your herd. A single disease outbreak or drought can wipe out years of investment overnight.",
+  },
+  {
+    title: "Feeding Consistency",
+    tip: "Feed animals at the same times daily. Consistent feeding routines reduce stress, improve digestion, and increase productivity.",
+  },
+  {
+    title: "Night Security",
+    tip: "Secure livestock in predator-proof enclosures at night. Predator attacks cause direct losses and long-term stress in survivors.",
+  },
+  {
+    title: "Pregnancy Toxemia Prevention",
+    tip: "Feed ewes and does extra energy in late pregnancy to prevent pregnancy toxemia. Twins and triplets dramatically increase energy needs.",
+  },
+  {
+    title: "Liver Fluke Control",
+    tip: "Treat for liver fluke in areas with wet conditions. Liver fluke causes bottle jaw, weight loss, and death if left untreated.",
+  },
+  {
+    title: "Zinc Deficiency",
+    tip: "Watch for skin thickening and poor wound healing — signs of zinc deficiency. Supplement zinc especially in high-cereal diets.",
+  },
+  {
+    title: "Seasonal Vaccinations",
+    tip: "Time vaccinations before high-risk seasons. Vaccinate against Orf and Pasteurella before cold, wet seasons in small ruminants.",
+  },
+  {
+    title: "Equipment Sterilization",
+    tip: "Sterilize all syringes, dehorning tools, and surgical equipment between animals to prevent transmission of bloodborne diseases.",
+  },
 ];
 
 const DashboardScreen = ({ navigation }) => {
