@@ -214,7 +214,7 @@ const VetScreen = ({ navigation }) => {
                         <View style={styles.detailRow}>
                           <Icon name="currency-usd" size={18} color="#6b7280" />
                           <Text style={styles.detailText}>
-                            Consultation: ${vet.consultationFee}
+                            Consultation: Ksh {vet.consultationFee}
                           </Text>
                         </View>
                         {vet.experience && (
